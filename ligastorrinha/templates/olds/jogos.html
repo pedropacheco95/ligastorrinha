@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<table class="table" width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td width="100%" valign="top" style="padding-top:10px;">
+                <div id="edition_table" class="box_container">
+                    <table cellspacing="0" cellpadding="0" class="zztable stats">
+                        <thead></thead>
+                        <thead>
+                            <tr>
+                                <th width="20%">Jornada</th>
+                                <th width="10%"></th>
+                                <th width="30%">Resultado</th>
+                                <th width="10%"></th>
+                                <th width="20%">Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in range(jornadas|length) %}
+                                    <td>{{ jornadas[i]["num"] }}</td>
+                                    <td style="background-color:rgba(120, 120, 0, 0.2);" >Branquelas</td>
+
+                                    <form action="/jogos" method="POST"> 
+                                        <td>
+                                            <button style="outline: 0; background-color: rgba(255, 255, 255, 0); border-color: transparent;" id="jogos" type="submit" name="jogo" value="{{ jornadas[i]['num'] }}">{{jornadas[i]["golos_equipa1"]}} - {{jornadas[i]["golos_equipa2"]}}</button>  
+                                        </td>
+                                    </form>
+                                    <td style="background-color:rgba(0, 0, 0, 0.2);">Maregões</td>
+                                    <td>{{ jornadas[i]["data"] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

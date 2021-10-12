@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    {% if names|length == 0 %}
+    <form action="/create_teams" method="post">
+        <button class="btn btn-primary" type="submit"> Fazer Equipas </button>
+    </form>
+    {% else %}
+    <div id="wrapper" style="color:rgb(255, 255, 255);">
+        <div id="left">
+            <h1> Branquelas </h1> 
+        </div>
+        <div id="right">
+            <h1> Maregões </h1>
+        </div>
+    </div>
+    <br>
+    <div id="wrapper" style="color:rgb(255, 255, 255);">
+        <div id="left">
+            <div>
+                {% for name in names["equipa1"] %}
+                <h3>
+                    {{ name }}
+                </h3>
+                {% endfor %}
+            </div>
+            <br>
+        </div>
+        <div id="right">
+            <div>
+                {% for name in names["equipa2"] %}
+                <h3>
+                    {{ name }}
+                </h3>
+                {% endfor %}
+            </div>
+            <br>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

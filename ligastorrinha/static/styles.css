@@ -1,0 +1,160 @@
+nav .navbar-brand
+{
+    /* size for brand */
+    font-size: xx-large;
+}
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+.table_container {
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5%;
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+select {
+    width: 140px;
+    margin: 10px;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .bg {
+    background: url() no-repeat center center fixed;
+    background-size: cover;
+    min-height:100%;
+
+  }
+
+.square_vitoria{
+    height: 10px;
+    width: 10px;
+    background-color:rgba(0, 153, 255, 0.815);
+}
+
+.square_derrota{
+    height: 10px;
+    width: 10px;
+    background-color:rgba(228, 120, 120, 0.781);
+}
+
+.square_primeiro{
+    height: 10px;
+    width: 10px;
+    background-color:rgba(0, 88, 252, 0.808);
+}
+
+.square_ultimo{
+    height: 10px;
+    width: 10px;
+    background-color:rgba(255, 0, 0, 0.815);
+}
+
+.square_melhor_marcador{
+    height: 10px;
+    width: 10px;
+    background-color:rgba(221, 218, 7, 0.815);
+}
+
+.flag_image_helper {
+    display: inline-block !important;
+    height: 100%;
+    vertical-align: middle !important;
+}
+
+div.sign{
+	width: 20px;
+	height: 20px;
+	padding: 0px 0px 0px 0px;
+	color: #FFF;
+	border-radius: 4px;
+	line-height: 20px;
+	text-align: center;
+}
+
+div.win{
+	background-color: #693;
+}
+
+div.draw{
+	background-color: #999;
+}
+
+div.lost{
+	background-color: #C33;
+}
+
+.discret_button{
+    outline: 0;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.profile_picture{
+    max-height: 150px;
+    max-width: 150px;
+    min-height: 60px;
+    min-width: 60px;
+    overflow: hidden;
+}
+
+.team_logo_container{
+    float: left;
+    width: 15%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+}
+
+.game_info_container{
+    float: left;
+    width: 70%;
+    border-radius: 1rem;
+}
+
+.goals_input{
+    width: 30%;
+    outline: 0;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: transparent;
+}
+
+.tiny_flag_image{
+    min-width: 18px;
+    min-height: 12px;
+}

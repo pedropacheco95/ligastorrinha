@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block header %}
+    <h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block main %}
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+
+    <form method=post enctype=multipart/form-data>
+
+        <div class="form-group">
+            <select class="form-control" name="models" id="models">
+                {% for model in models %}
+                    <option value="{{model}}">{{model}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <input class="form-control" type=file name=file>
+        </div>
+        
+        <button class="btn btn-primary" type="submit">Upload</button>
+        
+    </form>
+{% endblock %}

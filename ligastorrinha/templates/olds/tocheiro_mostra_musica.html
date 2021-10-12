@@ -1,0 +1,70 @@
+{% extends "layout_tocheiro.html" %}
+
+{% block main %}
+        {% if session.user_id %}
+                <li class="nav-item"><a class="nav-link" href="/tocheiro">O nosso Tocheiro</a></li>
+                <li class="nav-item active"><a class="nav-link" href="/tocheiro_lista_musicas">Lista de músicas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tocheiro_acrescentar_musica">Acrescentar uma música</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tocheiro_fazer">Fazer o Meu Tocheiro</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tocheiro_download">Download</a></li>
+        {% else %}
+                <li class="nav-item"><a class="nav-link" href="/tocheiro">O nosso Tocheiro</a></li>
+                <li class="nav-item active"><a class="nav-link" href="/tocheiro_lista_musicas">Lista de músicas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tocheiro_fazer">Fazer o Meu Tocheiro</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tocheiro_download">Download</a></li>
+        {% endif %}
+{% endblock %}
+
+{% block body_main %}
+
+        <div class="container_tocheiro">
+                <div class="div container p-5" id="Acrescentar_musica">
+                        <h3> {{ titulo }}</h3>
+                        <div class="div container p-5">
+                                <h6> Esta musica pode ser tocada nos momentos: {{momentos_da_musica[0]}} {% for moment in momentos_da_musica[1:] %} , {{moment}} {% endfor%} </h6>
+                                <br>
+                                <div class="dropdown">
+                                        <h6> 
+                                                Tom: &#160; <button onclick="myFunction()" id="music_button" class="dropbtn"> {{ tom }} </button>
+                                                <div id="myDropdown" class="dropdown-content">
+                                                        <form method="POST">
+                                                        {% for k in range(tons|length) %}
+                                                                <button id ="botao_de_notas" class="btn btn-primary" type="submit" name="nota" value="{{k}}"> {{ tons[k] }} </button>
+                                                        {% endfor %}
+                                                        </form>
+                                                </div>
+                                        </h6>
+                                </div>
+                        </div>    
+        
+                        {% for i in range(lista_letra_musica|length) %}
+                                <div>
+                                        {% for j in range(chord_list[i]|length) %}
+                                                <div class="dropdown"> 
+                                                        {% if  chord_list[i][j] == " " %}
+                                                                <button id="music_button" class="dropbtn">  &#160;  </button>
+                                                        {% else %}
+                                                                <button  id="music_button" class="dropbtn"> <b> {{ chord_list[i][j] }} </b> </button>
+                                                        {% endif %}
+                                                </div>
+                                        {% endfor %}
+                                </div>
+                                
+                                <div>
+                                        {% for j in range(lista_letra_musica[i]|length) %}
+                                                <div class="dropdown">
+                                                        {% if  lista_letra_musica[i][j] == " " %}
+                                                                <button id="music_button" class="dropbtn">  &#160;  </button>
+                                                        {% else %}
+                                                                <button id="music_button" class="dropbtn"> {{ lista_letra_musica[i][j] }} </button>
+                                                        {% endif %}
+                                                </div>
+                                        {% endfor %}
+                                </div>
+                        {% endfor %}
+                </div>
+        </div>        
+        <div class="div container p-5" id="Acrescentar_musica">
+                <button type="button" class="btn btn-outline-success" onclick="location.href = '/tocheiro_lista_musicas';" >Voltar</button>
+        </div>
+{% endblock %}

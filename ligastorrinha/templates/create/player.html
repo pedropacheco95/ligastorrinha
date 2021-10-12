@@ -1,0 +1,22 @@
+{% extends "create/layout.html" %}
+{% block create %}
+<form method="POST">
+    <div class="form-group optional" >
+        <label for='name' style="color: white;"> Nome (Curto) </label>
+        <input autocomplete="off" autofocus class="form-control" id="name" name="name" placeholder="Nome" type="text">
+    </div>
+    <div class="form-group optional" >
+        <label for='full_name' style="color: white;"> Nome completo </label>
+        <input autocomplete="off" autofocus class="form-control" id="full_name" name="full_name" placeholder="Nome Completo" type="text">
+    </div>
+    <div class="form-group optional" >
+        <label for='birth_date' style="color: white;"> Data de nascimento </label>
+        <input autocomplete="off" autofocus class="form-control" id="birth_date" name="birth_date" type="date">
+    </div>
+    <div class="form-group optional" >
+        <label for='picture' style="color: white;"> Fotografia </label>
+        <input class="form-control" id="picture" name="picture" type="file">
+    </div>
+    <button class="btn btn-primary" type="submit">Acrescentar Jogador</button>
+</form>
+{% endblock %}

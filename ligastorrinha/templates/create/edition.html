@@ -1,0 +1,42 @@
+{% extends "create/layout.html" %}
+{% block create %}
+<form method="POST">
+    <div class="form-group optional" >
+        <label for='name' style="color: white;"> Nome </label>
+        <input autocomplete="off" autofocus class="form-control" id="name" name="name" placeholder="Nome" type="text">
+    </div>
+
+    <div class="form-group optional" >
+        <label for='time' style="color: white;"> Nome </label>
+        <input autocomplete="off" autofocus class="form-control" id="time" name="time" placeholder="Horas (HH:mm)" type="text">
+    </div>
+
+    <div class="form-group optional" >
+        <label for='final_game' style="color: white;"> Jogo Final </label>
+        <input autocomplete="off" autofocus class="form-control" id="final_game" name="final_game" type="date">
+    </div>
+
+    <div class="form-group">
+        <label for='league' style="color: white;"> Liga </label>
+        <select class="custom-select my-1 mr-sm-2" name="league" id="league" style="width: auto!important;">å
+            <option value=""></option>
+            {% for league in leagues %}
+                <option value="{{league.name}}"> {{league.name}} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    {% for i in range(12) %}
+    <div class="form-group">
+        <label for='player_{{i}}' style="color: white;"> Jogador </label>
+        <select class="custom-select my-1 mr-sm-2" onchange="ShowPlayerInputs()" name="player_{{i}}" id="player" style="width: auto!important;">å
+            <option value=""></option>
+            {% for player in players %}
+                <option value="{{player.name}}"> {{player.name}} </option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Acrescentar Edição</button>
+</form>
+{% endblock %}

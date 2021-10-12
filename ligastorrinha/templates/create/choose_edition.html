@@ -1,0 +1,10 @@
+{% extends "create/layout.html" %}
+{% block create %}
+<form method="POST">
+    <select class="custom-select my-1 mr-sm-2" name="edition_name" id="edition_name" onchange="this.form.submit()" style="width: 40%!important;">
+        {% for step_edition in editions %}
+            <option value="{{step_edition.name}}"> {{step_edition.name}} </option>
+        {% endfor %}
+    </select>
+</form>
+{% endblock %}

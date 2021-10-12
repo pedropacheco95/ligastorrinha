@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+        <!-- Por o icone -->
+        <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"> -->
+        <link href="{{ url_for('static', filename='images/favicon.ico')}}" rel="icon">
+
+        <link href="{{ url_for('static', filename='styles.css')}}" rel="stylesheet">
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='main.js')}}"></script>
+        
+        {% if session.league_db %}
+            <title>{{ session.league }} {% block title %}{% endblock %}</title>
+        {% endif %}
+
+    </head>
+
+    <body style="background-color: rgba(39,51,65,255)">
+        <div class="bg">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border">
+                <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='images/favicon.png')}}" height = 50px></a>
+                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Competições
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for league in session['leagues'] %}
+                                    <a class="dropdown-item" href="{{ url_for('scores.table', league_name=league.name) }}">{{league.name}}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    </ul>
+                    {% if session['user'] %}
+                        <ul class="navbar-nav ml-auto mt-2">
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.edit') }}">{{ session['user'].username }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                            {% if session['user'].username == 'admin' and session['user'].id == 1 %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('create.index') }}">Create</a></li>
+                            {% endif %}
+                        </ul>
+                    {%else%}
+                        <ul class="navbar-nav ml-auto mt-2">
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </nav>
+
+            {% if get_flashed_messages() %}
+                <header>
+                    <div class="alert alert-danger border text-center" role="alert">
+                        {{ get_flashed_messages() | join(" ") }}
+                    </div>
+                </header>
+            {% endif %}
+
+            <main class="container p-5">
+                {% block main %}{% endblock %}
+            </main>
+
+            <footer class="small text-center text-muted">
+
+            </footer>
+        </div>
+    </body>
+
+</html>
