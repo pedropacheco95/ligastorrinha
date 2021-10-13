@@ -6,4 +6,7 @@ from ligastorrinha.models import User , Player , Edition , League
 def add_to_session():
     leagues = League.query.all()
     session['leagues'] = leagues
+    print('_________')
+    print('Leagues added to session')
+    print('_________')
     return 0
