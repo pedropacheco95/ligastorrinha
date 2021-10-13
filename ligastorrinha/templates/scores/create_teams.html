@@ -1,0 +1,83 @@
+{% extends "scores/layout.html" %} 
+{% block scores_info %}
+{% if show %}
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+        <td width="100%" valign="top" style="padding-top: 10px">
+            <div class="smallheader" style="color: rgb(255, 255, 255)">
+            Equipas
+            </div>
+            <br />
+            <div class="box_container">
+            <table class="table table-borderless" width="100%" cellspacing="0" cellpadding="0" style="background-color: rgba(255, 255, 255, 1);">
+                <thead></thead>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Branquelas</th>
+                    <th>Maregões</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>{{players[0]}}</td>
+                        <td>{{players[1]}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{players[3]}}</td>
+                        <td>{{players[2]}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{players[5]}}</td>
+                        <td>{{players[4]}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{players[6]}}</td>
+                        <td>{{players[7]}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{players[8]}}</td>
+                        <td>{{players[9]}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{players[11]}}</td>
+                        <td>{{players[10]}}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </td>
+        </tr>
+    </tbody>
+</table>
+{% else %}
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+        <td width="100%" valign="top" style="padding-top: 10px">
+            <br />
+            <div class="box_container">
+                <form action="{{url_for('scores.create_teams', league_name = league.name , edition_name = edition.name )}}" method="post">
+                    <button class="btn btn-primary" type="submit"> Fazer Equipas </button>
+                </form>
+            </div>
+        </td>
+        </tr>
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

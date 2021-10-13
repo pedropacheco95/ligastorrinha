@@ -1,0 +1,62 @@
+{% extends "games/layout.html" %} 
+{% block game_info %}
+
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td width="100%" valign="top" style="padding-top: 10px">
+                <div class="smallheader" style="color: rgb(255, 255, 255)">
+                    Ficha do jogo
+                </div>
+                <br />
+                <div class="box_container">
+                    <table width="100%">
+                        <thead>
+                            <th style="width: 10%;"></th>
+                            <th style="width: 20%; background-color: rgba(13, 121, 209, 0.493);">Branquelas</th>
+                            <th style="width: 20%;"></th>
+                            <th style="width: 10%;"></th>
+                            <th style="width: 20%; background-color: rgba(13, 121, 209, 0.493);">Maregões</th>
+                            <th style="width: 20%;"></th>
+                        </thead>
+                        <tbody>
+                            {% for index in range([teams['Branquelas']|length,teams['Maregões']|length]|max) %}
+                            <tr style="color: white;">
+                                <td></td>
+                                {% if index < teams['Branquelas']|length%}
+                                <td style="display: inline-flex;">
+                                    <div class="optional">{{teams['Branquelas'][index][1].id}} .</div> <a href="{{ url_for('players.general', player_name = teams['Branquelas'][index][1].name , edition_name = edition.name )}}">{{teams['Branquelas'][index][1].name}}</a>
+                                </td>
+                                {% if teams['Branquelas'][index][0].goals %}
+                                <td>{{teams['Branquelas'][index][0].goals}} <img src="{{ url_for('static', filename='images/goal.png')}}" width="18" height="18"> </td>
+                                {% else %}
+                                <td></td>
+                                {% endif%}
+                                {% else %}
+                                <td></td>
+                                <td></td>
+                                {% endif %}
+                                <td></td>
+                                {% if index < teams['Maregões']|length%}
+                                <td style="display: inline-flex;">
+                                    <div class="optional">{{teams['Maregões'][index][1].id}} .</div> <a href="{{ url_for('players.general', player_name = teams['Maregões'][index][1].name , edition_name = edition.name )}}">{{teams['Maregões'][index][1].name}}</a>
+                                </td>
+                                {% if teams['Maregões'][index][0].goals %}
+                                <td>{{teams['Maregões'][index][0].goals}} <img src="{{ url_for('static', filename='images/goal.png')}}" width="18" height="18"> </td>
+                                {% else %}
+                                <td></td>
+                                {% endif%}
+                                {% else %}
+                                <td></td>
+                                <td></td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td width="100%" valign="top" style="padding-top:10px;">
+                <div class="smallheader" style="color:rgb(255, 255, 255);">Classificação</div>
+                <br>
+                <div class="box_container">
+                    <table cellspacing="0" cellpadding="0">
+                        <thead></thead>
+                        <thead>
+                            <tr>
+                                <th width="5%"></th>
+                                <th width="5%"></th>
+                                <th class="text"></th>
+                                <th width="12%">Pontos</th>
+                                <th width="12%">Presenças</th>
+                                <th width="12%">Golos</th>
+                                <th width="12%">% Presenças</th>
+                                <th width="6%">V</th>
+                                <th width="6%">E</th>
+                                <th width="6%">D</th>
+                                <th width="6%">GM</th>
+                                <th width="6%">GS</th>
+                                <th width="6%">DG</th>
+                                <th width="6%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for name in ordem %}
+                            {% if (campeonato[name]["lugar"] == 1) %}
+                                <tr style="background-color:rgba(0, 88, 252, 0.308);">
+                            {% elif (campeonato[name]["lugar"] == 12) %}
+                                <tr style="background-color:rgba(255, 0, 0, 0.288);">
+                            {% elif (campeonato[name]["lugar"] < 7) %}
+                                <tr style="background-color:rgba(0, 153, 255, 0.2);">
+                            {% else %}
+                                <tr style="background-color:rgba(228, 120, 120, 0.2);">
+                            {% endif %}
+                                    <td style="">{{campeonato[name]["lugar"]}}</td><td style=""></td>
+                                    <form action="/tabela" method="POST"> 
+                                        <td class="text" style="">
+                                            <span class="small_faded">
+                                                <button id="music_titles" type="submit" name="nome_jogador" value="{{ campeonato[name]['nome'] }}" style="outline: 0; background-color: transparent; border-color: transparent;">{{campeonato[name]["nome"]}}</button>  
+                                            </span>
+                                        </td>
+                                    </form>
+                                    <td><strong>{{campeonato[name]["pontos"]}}</strong></td>
+                                    <td>{{campeonato[name]["presenças"]}}</td>
+                                    <td>{{campeonato[name]["golos"]}}</td>
+                                    <td>{{campeonato[name]["% presença"]}}</td>
+                                    <td>{{campeonato[name]["vitórias"]}}</td>
+                                    <td>{{campeonato[name]["empates"]}}</td>
+                                    <td>{{campeonato[name]["derrotas"]}}</td>
+                                    <td>{{campeonato[name]["golos da equipa"]}}</td>
+                                    <td>{{campeonato[name]["golos sofridos da equipa"]}}</td>
+                                    <td>{{campeonato[name]["golos da equipa"] - campeonato[name]["golos sofridos da equipa"]}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <!-- Para por a setinha a dizer se subiu ou desceu -->
+                                    <td style=""></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table>
+    <tbody>
+        <tr>
+            <td><div class="square_primeiro"></div></td>
+            <td><div style="text-align:left;color:rgb(255, 255, 255);">  &#160;Primeiro Lugar</div></td>
+        </tr>
+        <tr>
+            <td><div class="square_vitoria"></div></td>
+            <td><div style="text-align:left;color:rgb(255, 255, 255);"> &#160;Recebe uma magnífica Francesinha</div></td>
+        </tr>
+        <tr>
+            <td><div class="square_derrota"></div></td>
+            <td><div style="text-align:left;color:rgb(255, 255, 255);">  &#160;Paga uma Francesinha que se Fode</div></td>
+        </tr>
+        <tr>
+            <td><div class="square_ultimo"></div></td>
+            <td><div style="text-align:left;color:rgb(255, 255, 255);"> &#160;João Magalhães </div></td>
+        </tr>
+    </tbody>
+</table>
+<div style="color:rgb(255, 255, 255);"> 
+    ÚLTIMO JOGO E JANTAR DIA 10 DE JULHO
+</div>
+{% endblock %}
