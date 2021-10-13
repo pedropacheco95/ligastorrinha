@@ -81,8 +81,12 @@ def edit():
         file = request.files['picture']
         if file.filename != '':
             if player_id:
-                filename = str(player_id) + '.jpg'
-                file.save(os.path.join('ligastorrinha/static/images/Players', filename))
+                filename = 'images/Players/' + str(player_id) + '.jpg'
+                file_exists = os.path.exists(os.path.join('ligastorrinha/static/', filename))
+                if not file_exists:
+                    img_file = open(os.path.join('ligastorrinha/static/', filename),'wb')
+                    img_file.close()
+                file.save(os.path.join('ligastorrinha/static/', filename))
 
         if error is None:
             if username:
@@ -91,7 +95,7 @@ def edit():
                 session['user'].email = email
             if player:
                 session['user'].player_id = player.id
-                session['user'].player = player
+                session['user'].save()
                 if full_name:
                     player.full_name = full_name
                 if birth_date:
