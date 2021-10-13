@@ -49,6 +49,7 @@ class Player(db.Model ,model.Model, model.Base):
             session[edition.name][self.name] = {}
         if 'n_games_won_on_edition' not in session[edition.name][self.name]:
             session[edition.name][self.name]['n_games_won_on_edition'] = len([pig for pig in self.player_in_game_on_edition(edition) if (pig.get_game().winner == 1 and pig.team == 'Branquelas') or (pig.get_game().winner == -1 and pig.team == 'Maregões')])
+            print(self, session[edition.name][self.name]['n_games_won_on_edition'])
         return session[edition.name][self.name]['n_games_won_on_edition']
 
     def n_games_tied_on_edition(self,edition):

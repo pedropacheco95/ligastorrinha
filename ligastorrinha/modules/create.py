@@ -55,9 +55,9 @@ def game(edition_name = None):
         date = datetime.datetime.strptime(request.form.get('game_date'), '%Y-%m-%d')
 
         winner = 0
-        if goals_team2 > goals_team1:
+        if int(goals_team2) > int(goals_team1):
             winner = -1
-        elif goals_team1 > goals_team2:
+        elif int(goals_team1) > int(goals_team2):
             winner = 1
 
         game = Game(goals_team1=int(goals_team1),goals_team2=int(goals_team2),winner=winner,edition_id=edition.id,matchweek = len(edition.games)+1,date=date)
