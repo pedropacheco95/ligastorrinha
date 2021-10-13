@@ -2,7 +2,7 @@ import functools
 import datetime
 import os
 
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for , current_app
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ligastorrinha.models import User , Player , League
@@ -81,12 +81,14 @@ def edit():
         file = request.files['picture']
         if file.filename != '':
             if player_id:
-                filename = 'images/Players/' + str(player_id) + '.jpg'
-                file_exists = os.path.exists(os.path.join('ligastorrinha/static/', filename))
+                filename = os.path.join('images','Players',str(player_id) + '.jpg')
+                path = current_app.root_path + url_for('static', filename = filename)
+                file_exists = os.path.exists(path)
                 if not file_exists:
-                    img_file = open(os.path.join('ligastorrinha/static/', filename),'wb')
+                    img_file = open(path,'wb')
                     img_file.close()
-                file.save(os.path.join('ligastorrinha/static/', filename))
+                file.save(path)
+
 
         if error is None:
             if username:
