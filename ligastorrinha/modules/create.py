@@ -68,12 +68,14 @@ def game(edition_name = None):
                 team = 'Branquelas'
                 association = Association_PlayerGame(player_id= player.id, game_id = game.id,team = team,goals=int(dic['goals']))
                 association.create()
+                Association_PlayerEdition.query.filter_by(player_id = player.id, edition_id = edition.id).first().get_player_results(True)
         for dic in maregoes:
             player = dic['player']
             if player:
                 team = 'Maregões'
                 association = Association_PlayerGame(player_id= player.id, game_id = game.id,team = team,goals=int(dic['goals']))
                 association.create()
+                Association_PlayerEdition.query.filter_by(player_id = player.id, edition_id = edition.id).first().get_player_results(True)
         return redirect(url_for('main.index'))
     return render_template('create/game.html', edition = edition , default_day=default_day)
 

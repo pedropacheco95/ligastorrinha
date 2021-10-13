@@ -18,6 +18,4 @@ def general(id):
     edition = game.edition
     teams = game.players_by_team()
 
-    print(teams)
-
     return render_template('games/games.html', view='general', game = game , edition = edition, teams=teams)

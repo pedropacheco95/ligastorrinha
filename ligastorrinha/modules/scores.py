@@ -118,6 +118,9 @@ def create_teams(league_name,edition_name=None):
         if league.name == 'MasterLeague':
             random.shuffle(players)
 
+        edition.number_of_teams_made += 1
+        edition.save()
+
         return render_template('scores/create_teams.html', view='create_teams', show = True, players=players , editions=editions,league = league, edition = edition)
 
     return render_template('scores/create_teams.html', view='create_teams', show = False , editions=editions,league = league, edition = edition)
