@@ -1,7 +1,6 @@
-from sqlalchemy.sql.sqltypes import Date
 from ligastorrinha import model 
 from ligastorrinha.sql_db import db
-from sqlalchemy import Column, Integer , String , Table, ForeignKey
+from sqlalchemy import Column, Integer , String , Table, ForeignKey , Boolean, Date
 from sqlalchemy.orm import relationship
 
 class Edition(db.Model ,model.Model , model.Base):
@@ -11,9 +10,11 @@ class Edition(db.Model ,model.Model , model.Base):
     name = Column(String(80), unique=True, nullable=False)
     time = Column(String(10))
     final_game = Column(Date)
-    league_id =  db.Column(Integer, ForeignKey('leagues.id'))
-    games = relationship('Game', back_populates='edition')
+    has_ended = Column(Boolean)
+    number_of_teams_made = Column(Integer)
+    league_id = Column(Integer, ForeignKey('leagues.id'))
 
+    games = relationship('Game', back_populates='edition')
     league = relationship("League",back_populates='editions', lazy='subquery')
     players = relationship('Player',secondary='players_in_edition', lazy='subquery',back_populates='editions')
 

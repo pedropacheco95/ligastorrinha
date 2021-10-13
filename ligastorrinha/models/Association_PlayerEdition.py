@@ -30,9 +30,9 @@ class Association_PlayerEdition(db.Model ,model.Model, model.Base):
     def get_player(self):
         return Player.query.filter_by(id=self.player_id).first()
 
-    def get_player_results(self):
+    def get_player_results(self,recalculate = False):
         if self.get_edition().games:
-            if self.matchweek != self.get_edition().get_ordered_games()[-1].matchweek:
+            if recalculate:
                 percentage_of_appearances = round((len(self.get_player().games_played_on_edition(self.get_edition()))/len(self.get_edition().games)) * 100, 2) if len(self.get_edition().games) else 0.00
                 self.last_place = self.place
                 self.place = 1
