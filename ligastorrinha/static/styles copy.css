@@ -2342,7 +2342,7 @@ body, html {
     }
     
     .large .textover_image{
-        width: 780px;
+        width: 775px;
     }
     .home .textover_image{
         width: 620px;
@@ -2433,7 +2433,7 @@ body, html {
     }
     
     .large .textover_image .container{
-        width: 780px !important;
+        width: 775px !important;
     }
     
     .large #highlights .textover_image .container{
@@ -2616,7 +2616,7 @@ body, html {
     }
     
     .large .textover_image > div > div.image{
-        width: 780px !important;
+        width: 775px !important;
     }
     
     .textover_image img{
@@ -2685,7 +2685,7 @@ body, html {
     }
     
     .large .textover_image .wrapper{
-        width: 780px !important;
+        width: 775px !important;
     }
     
     .column_460 .textover_image .wrapper{
@@ -3801,7 +3801,7 @@ body, html {
     }
     
     #page_main.large, #page_main_wiki.large, #page_main_admin.large{
-        width: 780px;
+        width: 775px;
         height: 100%;
         padding: 10px 10px 0px 10px;
         vertical-align: top;
@@ -15632,7 +15632,7 @@ body, html {
     }
     
     #menu_header .container{
-        width: 780px;
+        width: 775px;
         padding: 0px 10px 0px 10px;
         float: left;
     }
@@ -15945,7 +15945,7 @@ body, html {
     }
     
     #lg-slider div.container{
-        /*width: 850px;*/
+        /*width: 775px;*/
         display: inline-block;
         margin: 50px 0px 0px 0px;
     }

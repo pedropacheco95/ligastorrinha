@@ -1,17 +1,17 @@
 window.addEventListener('load',function(){
-    if (window.innerWidth < 850){
+    if (window.innerWidth < 775){
         reduceWindow();
     };
-    if (window.innerWidth > 850){
+    if (window.innerWidth > 775){
         enlargeWindow();
     };
 })
 
 window.addEventListener('resize',function(){
-    if (window.innerWidth < 850){
+    if (window.innerWidth < 775){
         reduceWindow();
     };
-    if (window.innerWidth > 850){
+    if (window.innerWidth > 775){
         enlargeWindow();
     };
 })
