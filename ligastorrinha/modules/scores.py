@@ -24,7 +24,8 @@ def index(view,league_name,edition_name):
 
 @bp.route('/table/<league_name>', methods=('GET', 'POST'))
 @bp.route('/table/<league_name>/<edition_name>', methods=('GET', 'POST'))
-def table(league_name,edition_name=None):
+@bp.route('/table/<league_name>/<edition_name>/<recalculate>', methods=('GET', 'POST'))
+def table(league_name,edition_name=None,recalculate=None):
 
     league = League.query.filter_by(name=league_name).first()
     if not league:
@@ -35,10 +36,15 @@ def table(league_name,edition_name=None):
 
     editions , edition , players = checkLeague(league,edition_name)
 
+    if recalculate == 'recalculate':
+        recalculate_bool = True
+    else:
+        recalculate_bool = False
+
     table_values = {}
     for player in players:
         association = Association_PlayerEdition.query.filter_by(player_id= player.id , edition_id = edition.id).first()
-        table_values[player.name] = association.get_player_results()
+        table_values[player.name] = association.get_player_results(recalculate_bool)
 
     table_values = {key: value for key, value in sorted(table_values.items(), key=lambda item: item[1]['points'], reverse=True)}
 
