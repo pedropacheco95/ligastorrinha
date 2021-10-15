@@ -18,6 +18,11 @@ class Model():
         db.session.add(self)
         db.session.commit()
         return True
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return True
 
     def save(self):
         db.session.commit()

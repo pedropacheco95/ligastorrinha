@@ -6,4 +6,5 @@ from . import players
 from . import api
 from . import games
 from . import create
+from . import delete
 from . import startup
