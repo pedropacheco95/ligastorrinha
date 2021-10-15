@@ -54,6 +54,7 @@ def create_app(test_config=None):
     app.register_blueprint(modules.players.bp)
     app.register_blueprint(modules.games.bp)
     app.register_blueprint(modules.create.bp)
+    app.register_blueprint(modules.delete.bp)
     app.register_blueprint(modules.api.bp)
     with app.app_context():
         sql_db.db.init_app(app)

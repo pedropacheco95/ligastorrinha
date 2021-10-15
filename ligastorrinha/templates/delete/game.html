@@ -1,0 +1,74 @@
+{% extends "delete/layout.html" %}
+{% block delete %}
+<form method="POST">
+    <div class="table_container">
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                <td width="100%" valign="top" style="padding-top: 10px">
+                    <div class="smallheader" style="color: rgb(255, 255, 255)">
+                    Jogos
+                    </div>
+                    <br />
+                    <div class="box_container">
+                        <table style="background-color: rgba(255, 255, 255, 1);" width="100%">
+                            <tbody>
+                                {% for game in games %}
+                                    <tr>
+                                        {% if game.date %}
+                                            <td class="optional">
+                                                {{ game.date.strftime('%d/%m/%y') }}
+                                            </td>
+                                        {% else %}
+                                            <td class="optional">
+                                                Sem data
+                                            </td>
+                                        {% endif %}
+                                        <td class="desktop optional">
+                                            {{game.edition.time}}
+                                        </td>
+                                        <td class="form">
+                                            {% if game.winner == 1 %}
+                                            <div class="sign win">V</div>
+                                            {% elif game.winner == -1 %}
+                                            <div class="sign lost">D</div>
+                                            {% else %}
+                                            <div class="sign draw">E</div>
+                                            {% endif %}
+                                        </td>
+                                        <td class="home">
+                                            <a>Branquelas</a>
+                                        </td>
+                                        <td class="result">
+                                            <a href="{{ url_for('games.general', id=game.id) }}"> {{ game.goals_team1 }} - {{ game.goals_team2 }}</a>
+                                        </td>
+                                        <td class="away">
+                                            <a>Maregões</a>
+                                        </td>
+                                        <td class="form">
+                                            {% if game.winner == -1 %}
+                                            <div class="sign win">V</div>
+                                            {% elif game.winner == 1 %}
+                                            <div class="sign lost">D</div>
+                                            {% else %}
+                                            <div class="sign draw">E</div>
+                                            {% endif %}
+                                        </td>
+                                        <td class="desktop optional">
+                                            Jornada {{ game.matchweek }}
+                                        </td>
+                                        <td class="double desktop optional">
+                                            <button class="discret_button" type="submit" value={{game.id}} name="game_id"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+{% endblock %}
