@@ -27,9 +27,12 @@ class Player(db.Model ,model.Model, model.Base):
         if 'games_played_on_edition' not in session[edition.name][self.name]:
             #Verify the edition exists
             editions = self.get_table('editions').all()
+            print(editions)
             if edition not in editions:
                 raise ValueError
             session[edition.name][self.name]['games_played_on_edition'] =  [game for game in self.games if game.edition_id == edition.id]
+            for game in session[edition.name][self.name]['games_played_on_edition']:
+                game.refresh()
         return session[edition.name][self.name]['games_played_on_edition']
 
     def player_in_game_on_edition(self,edition):

@@ -28,6 +28,10 @@ class Model():
         db.session.commit()
         return True
 
+    def refresh(self):
+        db.session.refresh(self)
+        return True
+
     def get_table(self,model):
         return db.session.query(self.table_object(table_name=model))
 
