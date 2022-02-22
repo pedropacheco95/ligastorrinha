@@ -45,7 +45,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {% for league in session['leagues'] %}
-                                    <a class="dropdown-item" href="{{ url_for('scores.table', league_name=league.name) }}">{{league.name}}</a>
+                                    <a class="dropdown-item" href="{{ url_for('scores.table', league_id=league.id) }}">{{league.name}}</a>
                                 {% endfor %}
                             </div>
                         </li>

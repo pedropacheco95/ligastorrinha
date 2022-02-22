@@ -28,7 +28,7 @@
             </button>
             <div class="collapse navbar-collapse" id="scores_navbar" name='scores_navbar'>
                 <ul class="navbar-nav mr-auto mt-2" style="width: 100%;">
-                    <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('scores.table', league_name=league.name , edition_name=edition.name) }}">Tabela</a></li>
+                    <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('scores.table', league_id=league.id , edition_id=edition.id) }}">Tabela</a></li>
                     <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('scores.games', league_name=league.name , edition_name=edition.name) }}">Jogos</a></li>
                     <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('scores.scorers', league_name=league.name , edition_name=edition.name) }}">Melhores marcadores</a></li>
                     <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('scores.create_teams', league_name=league.name , edition_name=edition.name) }}">Criar Equipas</a></li>

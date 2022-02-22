@@ -15,120 +15,19 @@ class Player(db.Model ,model.Model, model.Base):
     full_name =  Column(Text, unique=True)
     birthday = Column(Date)
 
-    user = relationship("User",back_populates='player', uselist=False, lazy='subquery')
-    games = relationship("Game", secondary='players_in_game', lazy='subquery',back_populates='players')
-    editions = relationship("Edition", secondary='players_in_edition', lazy='subquery',back_populates='players')
+    user = relationship("User",back_populates='player')
+    games_relations = relationship('Association_PlayerGame', back_populates='player')
+    editions_relations = relationship('Association_PlayerEdition', back_populates='player')
     
     def games_played_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'games_played_on_edition' not in session[edition.name][self.name]:
-            #Verify the edition exists
-            editions = self.get_table('editions').all()
-            print(editions)
-            if edition not in editions:
-                raise ValueError
-            session[edition.name][self.name]['games_played_on_edition'] =  [game for game in self.games if game.edition_id == edition.id]
-            for game in session[edition.name][self.name]['games_played_on_edition']:
-                game.refresh()
-        return session[edition.name][self.name]['games_played_on_edition']
-
-    def player_in_game_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'player_in_game_on_edition' not in session[edition.name][self.name]:
-            games_on_edition = self.games_played_on_edition(edition)
-            session[edition.name][self.name]['player_in_game_on_edition'] =  [self.get_table('players_in_game').filter_by(player_id=self.id,game_id = game.id).one() for game in games_on_edition]
-        return session[edition.name][self.name]['player_in_game_on_edition']
-    
-    def n_games_won_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'n_games_won_on_edition' not in session[edition.name][self.name]:
-            session[edition.name][self.name]['n_games_won_on_edition'] = len([pig for pig in self.player_in_game_on_edition(edition) if (pig.get_game().winner == 1 and pig.team == 'Branquelas') or (pig.get_game().winner == -1 and pig.team == 'Maregões')])
-        return session[edition.name][self.name]['n_games_won_on_edition']
-
-    def n_games_tied_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'n_games_tied_on_edition' not in session[edition.name][self.name]:
-            session[edition.name][self.name]['n_games_tied_on_edition'] = len([game for game in self.games_played_on_edition(edition) if game.winner == 0])
-        return session[edition.name][self.name]['n_games_tied_on_edition'] 
-
-    def n_games_lost_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'n_games_lost_on_edition' not in session[edition.name][self.name]:
-            session[edition.name][self.name]['n_games_lost_on_edition'] = len([pig for pig in self.player_in_game_on_edition(edition) if (pig.get_game().winner == -1 and pig.team == 'Branquelas') or (pig.get_game().winner == 1 and pig.team == 'Maregões')])
-        return session[edition.name][self.name]['n_games_lost_on_edition']
-    
-    def goals_scored_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'goals_scored_on_edition' not in session[edition.name][self.name]:
-            player_in_game = self.player_in_game_on_edition(edition)
-            goals  = 0
-            for game_played in player_in_game:
-                goals += game_played.goals
-            session[edition.name][self.name]['goals_scored_on_edition'] = goals
-        return session[edition.name][self.name]['goals_scored_on_edition']
-
-    def goals_scored_by_team_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'goals_scored_by_team_on_edition' not in session[edition.name][self.name]:
-            goals = 0
-            for pig in self.player_in_game_on_edition(edition):
-                if pig.team == 'Branquelas':
-                    goals += pig.get_game().goals_team1
-                else:
-                    goals += pig.get_game().goals_team2
-            session[edition.name][self.name]['goals_scored_by_team_on_edition'] = goals
-        return session[edition.name][self.name]['goals_scored_by_team_on_edition']
-
-    def goals_suffered_by_team_on_edition(self,edition):
-        if edition.name not in session.keys():
-            session[edition.name] = {}
-        if self.name not in session[edition.name].keys():
-            session[edition.name][self.name] = {}
-        if 'goals_suffered_by_team_on_edition' not in session[edition.name][self.name]:
-            goals = 0
-            for pig in self.player_in_game_on_edition(edition):
-                if pig.team == 'Branquelas':
-                    goals += pig.get_game().goals_team2
-                else:
-                    goals += pig.get_game().goals_team1
-            session[edition.name][self.name]['goals_suffered_by_team_on_edition'] = goals
-        return session[edition.name][self.name]['goals_suffered_by_team_on_edition']
-
-    def points_on_edition(self,edition):
-        #Formula to calculate points: 
-        #   3 points times the number of victories
-        #   1 point times the number of ties
-        #   1 point times the number of presences
-        #   0.1 points times the goals scored
-        return 3*self.n_games_won_on_edition(edition) + self.n_games_tied_on_edition(edition) + len(self.games_played_on_edition(edition)) + .1 * self.goals_scored_on_edition(edition)
+        return [rel.game for rel in self.games_relations if rel.game.edition_id == edition.id and rel.game.played]
 
     def image_url(self):
         filename = 'images/Players/' + str(self.id) + '.jpg'
         return url_for('static', filename=filename)
 
     def result_on_game(self,game):
-        association = self.get_table('players_in_game').filter_by(player_id=self.id,game_id = game.id).one()
+        association = [rel for rel in self.games_relations if rel.game == game][0]
         if association.team == 'Maregões':
             factor = -1
         else:
@@ -136,7 +35,7 @@ class Player(db.Model ,model.Model, model.Base):
         return game.winner * factor
 
     def goals_on_game(self,game):
-        association = self.get_table('players_in_game').filter_by(player_id=self.id,game_id = game.id).one()
+        association = [rel for rel in self.games_relations if rel.game == game][0]
         return association.goals
 
     def age(self):
@@ -144,3 +43,19 @@ class Player(db.Model ,model.Model, model.Base):
             today = date.today()
             return today.year - self.birthday.year - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
         return None
+
+    def get_games_relations_played(self,edition = None):
+        relations = self.matches_relations
+        if edition:
+            relations = [relation for relation in self.matches_relations if relation.match.edition==edition]
+        return [relation for relation in relations if relation.match.played]
+
+    def goals_scored_by_team(self,edition=None):
+        relations = self.get_games_relations_played(edition)
+        goals_scored_by_team = [relation.game.goals_team1 if relation.team=='Branquelas' else relation.game.goals_team2 for relation in relations]
+        return sum(goals_scored_by_team)
+
+    def goals_suffered_by_team(self,edition=None):
+        relations = self.get_match_relations_played(edition)
+        goals_suffered_by_team = [relation.game.goals_team1 if relation.team=='Maregões' else relation.game.goals_team2 for relation in relations]
+        return sum(goals_suffered_by_team)

@@ -130,4 +130,8 @@ dmypy.json
 
 #Database 
 
-.db
+*.db
+
+#Database csvs
+
+/static/data/csv

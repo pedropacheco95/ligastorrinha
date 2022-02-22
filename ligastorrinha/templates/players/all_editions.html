@@ -33,7 +33,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{url_for( 'scores.table' , league_name = values[key]['edition'].league.name, edition_name = values[key]['edition'].name)}}"> {{ key }} </a>
+                                        <a href="{{url_for( 'scores.table' , league_id = values[key]['edition'].league.id, edition_id = values[key]['edition'].id)}}"> {{ key }} </a>
                                     </td>
                                     <td><strong>{{values[key]["points"]}}</strong></td>
                                     <td class="optional">{{values[key]["appearances"]}}</td>

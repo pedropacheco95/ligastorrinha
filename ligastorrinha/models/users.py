@@ -12,4 +12,4 @@ class User(db.Model ,model.Model,model.Base):
     password = Column(Text, nullable=False)
     player_id = Column(Integer, ForeignKey('players.id'))
     
-    player = relationship('Player', back_populates='user', lazy='subquery')
+    player = relationship('Player', back_populates='user')
