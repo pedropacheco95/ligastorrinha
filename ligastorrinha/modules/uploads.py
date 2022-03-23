@@ -63,95 +63,6 @@ def upload_csv():
 
     return render_template('uploads/upload.html',models=models)
 
-@bp.route('/upload_csv_to_db_old', methods=['GET', 'POST'])
-def upload_csv_to_db_old():
-
-    leagues = dict()
-    f = open(os.path.join('ligastorrinha/uploads', 'Ligas.csv'))
-    for line in f:
-        line = line.strip('\n')
-        columns = line.split(",")
-        if columns[0] != 'Id_Liga':
-            liga = League(name=columns[1])
-            liga.create()
-            leagues[columns[0]] = liga
-    f.close()
-
-    editions = dict()
-    f = open(os.path.join('ligastorrinha/uploads', 'Edições.csv'))
-    for line in f:
-        line = line.strip('\n')
-        columns = line.split(",")
-        if columns[0] != 'Id_Edição':
-            date = datetime.datetime.strptime(columns[4], '%d/%m/%Y')
-            edicao = Edition(name=columns[1],league_id=leagues[columns[2]].id,time = columns[3],final_game=date)
-            editions[columns[0]] = edicao
-            edicao.create()
-    f.close()
-
-    players = dict()
-    f = open(os.path.join('ligastorrinha/uploads', 'Jogadores.csv'))
-    for line in f:
-        line = line.strip('\n')
-        columns = line.split(",")
-        if columns[0] != 'Id_jogador':
-            if columns[3]:
-                player = Player(name=columns[1], full_name=columns[3])
-            else:
-                player = Player(name=columns[1])
-            player.create()
-            players[columns[0]] = player
-    f.close()
-
-    teams = dict()
-    f = open(os.path.join('ligastorrinha/uploads', 'Equipas.csv'))
-    for line in f:
-        line = line.strip('\n')
-        columns = line.split(",")
-        if columns[0] != 'Id_equipa':
-            if columns[1] == '':
-                columns[1] = 0
-            teams[columns[0]] = {'golos':columns[1]}
-    f.close()
-
-    games = dict()
-    f = open(os.path.join('ligastorrinha/uploads', 'Jogos.csv'))
-    for line in f:
-        line = line.strip('\n')
-        columns = line.split(",")
-        if columns[0] != 'Id_jogo':
-            edition = editions[columns[4]]
-            date = datetime.datetime.strptime(columns[5], '%d/%m/%Y')
-            game = Game(goals_team1=int(teams[columns[1]]['golos']),goals_team2=int(teams[columns[2]]['golos']),winner=int(columns[3]),edition_id=edition.id,matchweek = len(edition.games)+1,date=date)
-            games[columns[0]] = game
-            game.create()
-    f.close()
-
-    f = open(os.path.join('ligastorrinha/uploads', 'Jogadores_por_equipa.csv'))
-    for line in f:
-        line = line.strip('\n')
-        columns = line.split(",")
-        if columns[0] != 'Id_equipa':
-            player = players[columns[1]]
-            game = games[columns[2]]
-            team = 'Branquelas' if int(columns[0])%2 == 1 else 'Maregões'
-            association = Association_PlayerGame(player_id= player.id, game_id = game.id,team = team,goals=int(columns[3]))
-            association.create()
-    f.close()
-
-    f = open(os.path.join('ligastorrinha/uploads', 'JogadoresPorEdicao.csv'))
-    for line in f:
-        line = line.strip('\n')
-        columns = line.split(",")
-        if columns[0] != 'Id':
-            player = players[columns[1]]
-            edition = editions[columns[2]]
-            association = Association_PlayerEdition(player_id = player.id, edition_id = edition.id)
-            association.create()
-    f.close()
-
-    return redirect(url_for('main.index'))
-
 @bp.route('/upload_csv_to_db', methods=['GET', 'POST'])
 def upload_csv_to_db():
 
@@ -262,8 +173,8 @@ def upload_csv_to_db():
 
 @bp.route('/export_db_to_csv', methods=['GET', 'POST'])
 def export_db_to_csv():
-    models = User.query.first().all_tables_object()
-    instances = User.query.first().get_all_tables()
+    models = Game.query.first().all_tables_object()
+    instances = Game.query.first().get_all_tables()
     for model in models.keys():
         models[model] = models[model].__table__.columns.keys()
     for model in instances.keys():
@@ -278,6 +189,7 @@ def export_db_to_csv():
                 instance_values.append(getattr(instance, field))
             values[model].append(instance_values)
 
+    print(models)
 
     for model in models.keys():
         file = os.path.join('ligastorrinha/static/data/csv', '%s.csv' % model)
@@ -286,7 +198,7 @@ def export_db_to_csv():
 
         with open(file, 'w') as f:
             write = csv.writer(f)
-            
+
             write.writerow(fields)
             write.writerows(rows)
     return redirect(url_for('main.index'))
