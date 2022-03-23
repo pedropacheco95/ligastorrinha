@@ -1,4 +1,5 @@
 from datetime import date
+from email.policy import default
 
 from ligastorrinha import model 
 from ligastorrinha.sql_db import db
@@ -14,24 +15,32 @@ class Player(db.Model ,model.Model, model.Base):
     name = Column(String(80), unique=True, nullable=False)
     full_name =  Column(Text, unique=True)
     birthday = Column(Date)
+    image_url = Column(Text,default="default_player.jpg")
 
     user = relationship("User",back_populates='player')
     games_relations = relationship('Association_PlayerGame', back_populates='player')
     editions_relations = relationship('Association_PlayerEdition', back_populates='player')
+
+    def editions(self):
+        return [rel.edition for rel in self.editions_relations] 
+
+    def games_played(self):
+        #[rel.game for rel in self.games_relations if rel.game.played]
+        return [rel.game for rel in self.games_relations] 
     
     def games_played_on_edition(self,edition):
-        return [rel.game for rel in self.games_relations if rel.game.edition_id == edition.id and rel.game.played]
+        #[rel.game for rel in self.games_relations if rel.game.edition_id == edition.id and rel.game.played]
+        return [rel.game for rel in self.games_relations if rel.game.edition_id == edition.id]
 
     def image_url(self):
-        filename = 'images/Players/' + str(self.id) + '.jpg'
+        filename = 'images/Players/{img}'.format(img=self.image_url) 
         return url_for('static', filename=filename)
 
     def result_on_game(self,game):
         association = [rel for rel in self.games_relations if rel.game == game][0]
+        factor = 1
         if association.team == 'Maregões':
             factor = -1
-        else:
-            factor = 1
         return game.winner * factor
 
     def goals_on_game(self,game):

@@ -22,26 +22,26 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for name in table_values.keys() %} 
-                {% if (table_values[name]["place"] == 1) %}
+                {% for relation in edition.players_relations_classification_by_goals() %} 
+                {% if (loop.index == 1) %}
                 <tr style="background-color: rgba(221, 218, 7, 0.493)">
                 {% else %}
                 <tr>
                     {% endif %}
-                    <td style="">{{table_values[name]["place"]}}</td>
-                    <td class="text" style="">
+                    <td>{{loop.index}}</td>
+                    <td class="text">
                         <a>
-                            <form action="{{ url_for('players.general', player_name = name , edition_name = edition.name )}}">
+                            <form action="{{ url_for('players.general', player_name = relation.player.name , edition_name = edition.name )}}">
                                 <button type="submit" id="player_name" class="discret_button">
-                                    {{ name }}
+                                    {{ relation.player.name }}
                                 </button>
                             </form>
                         </a>
                     </td>
-                    <td>{{table_values[name]["goals"]}}</td>
-                    <td>{{table_values[name]["appearances"]}}</td>
-                    {% if table_values[name]["appearances"] != 0 %}
-                    <td>{{(table_values[name]["goals"] / table_values[name]["appearances"])|round(2)}}</td>
+                    <td>{{relation.goals}}</td>
+                    <td>{{relation.appearances}}</td>
+                    {% if relation.appearances != 0 %}
+                    <td>{{(relation.goals / relation.appearances)|round(2)}}</td>
                     {% else %}
                     <td> 0.0 </td>
                     {% endif %}

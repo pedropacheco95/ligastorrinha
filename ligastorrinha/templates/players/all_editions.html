@@ -23,7 +23,7 @@
                             <th>D</th>
                         </thead>
                         <tbody>
-                            {% for key in values.keys() %}
+                            {% for relation in player.editions_relations %}
                                 <tr>
                                     <td class="optional">
                                         <div class="image">
@@ -33,15 +33,15 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{url_for( 'scores.table' , league_id = values[key]['edition'].league.id, edition_id = values[key]['edition'].id)}}"> {{ key }} </a>
+                                        <a href="{{url_for( 'scores.table' , league_id = relation.edition.league.id, edition_id = relation.edition.id)}}"> {{ relation.edition.name }} </a>
                                     </td>
-                                    <td><strong>{{values[key]["points"]}}</strong></td>
-                                    <td class="optional">{{values[key]["appearances"]}}</td>
-                                    <td>{{values[key]["goals"]}}</td>
-                                    <td class="optional">{{values[key]["percentage of appearances"]}}</td>
-                                    <td>{{values[key]["wins"]}}</td>
-                                    <td class="optional">{{values[key]["draws"]}}</td>
-                                    <td>{{values[key]["losts"]}}</td>
+                                    <td><strong>{{relation.points}}</strong></td>
+                                    <td class="optional">{{relation.appearances}}</td>
+                                    <td>{{relation.goals}}</td>
+                                    <td class="optional">{{relation.percentage_of_appearances}}</td>
+                                    <td>{{relation.wins}}</td>
+                                    <td class="optional">{{relation.draws}}</td>
+                                    <td>{{relation.losts}}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

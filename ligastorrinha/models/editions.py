@@ -13,6 +13,7 @@ class Edition(db.Model ,model.Model , model.Base):
     has_ended = Column(Boolean)
     number_of_teams_made = Column(Integer)
     league_id = Column(Integer, ForeignKey('leagues.id'))
+    last_team = Column(String(40))
 
     games = relationship('Game', back_populates='edition')
     league = relationship('League',back_populates='editions')
@@ -37,6 +38,11 @@ class Edition(db.Model ,model.Model , model.Base):
                 rel.place = index + 1
                 rel.save()
         return sorted_by_points
+
+    def players_relations_classification_by_goals(self):
+        sorted_by_goals = self.players_relations
+        sorted_by_goals.sort(key=lambda x: x.goals, reverse=True)
+        return sorted_by_goals
 
     def player_position(self,player):
         return self.players_classification().index(player) + 1
@@ -108,3 +114,6 @@ class Edition(db.Model ,model.Model , model.Base):
             edition_relation.save()
         self.players_classification(update_places=True) 
         return True
+
+    def players_ids_last_team(self):
+        return [int(player_id) for player_id in self.last_team[:-1].split(';')]

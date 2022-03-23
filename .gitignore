@@ -134,4 +134,4 @@ dmypy.json
 
 #Database csvs
 
-/static/data/csv
+ligastorrinha/static/data/csv/*

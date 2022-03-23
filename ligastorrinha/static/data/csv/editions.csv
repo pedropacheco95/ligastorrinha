@@ -1,6 +1,6 @@
-id,name,time,final_game,has_ended,number_of_teams_made,league_id
-1,1ª Edição MasterLeague,21:30,2021-07-15,True,0,1
-2,1ª Edição TuesdayLeague,22:00,2021-02-09,True,0,2
-3,2ª Edição TuesdayLeague,22:00,2021-07-13,True,0,2
-4,3ª Edição TuesdayLeague,22:00,2022-02-15,False,14,2
-5,2ª Edição MasterLeague,21:30,2022-06-09,False,24,1
+id,name,time,final_game,has_ended,number_of_teams_made,league_id,last_team
+1,1ª Edição MasterLeague,21:30,2021-07-15,True,0,1,
+2,1ª Edição TuesdayLeague,22:00,2021-02-09,True,0,2,
+3,2ª Edição TuesdayLeague,22:00,2021-07-13,True,0,2,
+4,3ª Edição TuesdayLeague,22:00,2022-02-15,False,14,2,
+5,2ª Edição MasterLeague,21:30,2022-06-09,False,28,1,9;10;8;3;11;1;31;30;12;6;5;29;

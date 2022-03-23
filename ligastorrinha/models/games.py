@@ -22,9 +22,7 @@ class Game(db.Model ,model.Model, model.Base):
         teams = {}
         teams['Branquelas'] = []
         teams['Maregões'] = []
-        associations = [self.get_table('players_in_game').filter_by(player_id=player.id,game_id = self.id).one() for player in self.players]
-        for association in associations:
-            player = association.get_player()
-            teams[association.team].append((association,player))
+        for association in self.players_relations:
+            teams[association.team].append((association,association.player))
 
         return teams

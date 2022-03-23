@@ -40,14 +40,14 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link" href="{{ url_for('main.leagues') }}">
                                 Competições
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {% for league in session['leagues'] %}
-                                    <a class="dropdown-item" href="{{ url_for('scores.table', league_id=league.id) }}">{{league.name}}</a>
-                                {% endfor %}
-                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="{{ url_for('main.players') }}">
+                                Jogadores
+                            </a>
                         </li>
                     </ul>
                     {% if session['user'] %}
