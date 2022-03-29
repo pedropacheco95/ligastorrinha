@@ -1,62 +1,47 @@
 {% extends "games/layout.html" %} 
 {% block game_info %}
 
-<table width="100%" cellspacing="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td width="100%" valign="top" style="padding-top: 10px">
-                <div class="smallheader" style="color: rgb(255, 255, 255)">
-                    Ficha do jogo
-                </div>
-                <br />
-                <div class="box_container">
-                    <table width="100%">
-                        <thead>
-                            <th style="width: 10%;"></th>
-                            <th style="width: 20%; background-color: rgba(13, 121, 209, 0.493);">Branquelas</th>
-                            <th style="width: 20%;"></th>
-                            <th style="width: 10%;"></th>
-                            <th style="width: 20%; background-color: rgba(13, 121, 209, 0.493);">Maregões</th>
-                            <th style="width: 20%;"></th>
-                        </thead>
-                        <tbody>
-                            {% for index in range([teams['Branquelas']|length,teams['Maregões']|length]|max) %}
-                            <tr style="color: white;">
-                                <td></td>
-                                {% if index < teams['Branquelas']|length%}
-                                <td style="display: inline-flex;">
-                                    <div class="optional">{{teams['Branquelas'][index][1].id}} .</div> <a href="{{ url_for('players.general', player_name = teams['Branquelas'][index][1].name , edition_name = edition.name )}}">{{teams['Branquelas'][index][1].name}}</a>
-                                </td>
-                                {% if teams['Branquelas'][index][0].goals %}
-                                <td>{{teams['Branquelas'][index][0].goals}} <img src="{{ url_for('static', filename='images/goal.png')}}" width="18" height="18"> </td>
-                                {% else %}
-                                <td></td>
-                                {% endif%}
-                                {% else %}
-                                <td></td>
-                                <td></td>
-                                {% endif %}
-                                <td></td>
-                                {% if index < teams['Maregões']|length%}
-                                <td style="display: inline-flex;">
-                                    <div class="optional">{{teams['Maregões'][index][1].id}} .</div> <a href="{{ url_for('players.general', player_name = teams['Maregões'][index][1].name , edition_name = edition.name )}}">{{teams['Maregões'][index][1].name}}</a>
-                                </td>
-                                {% if teams['Maregões'][index][0].goals %}
-                                <td>{{teams['Maregões'][index][0].goals}} <img src="{{ url_for('static', filename='images/goal.png')}}" width="18" height="18"> </td>
-                                {% else %}
-                                <td></td>
-                                {% endif%}
-                                {% else %}
-                                <td></td>
-                                <td></td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="games_info">
+    <div class="smallheader" style="color: rgb(255, 255, 255)">
+        Ficha do jogo
+    </div>
+    <div class="box_container">
+        <div class="line_up">
+            <div class="heading">
+                <span class="optional_description">Equipa</span><span class="optional_description_for_small_screen">Branquelas</span>
+            </div>
+            <table class="table table-striped table_line_up">
+                {% for tup in teams['Branquelas']%}
+                {% set relation = tup[0] %}
+                {% set player = tup[1] %}
+                {% set player_url =  url_for('players.general', player_name = player.name , edition_name = edition.name ) %}
+                <tr onclick="redirect('{{player_url}}')">
+                    <td>{{player.id}}</td>
+                    <td><img class="table_profile_image" src="{{ player.full_image_url() }}"></td>
+                    <td>{{player.name}}</td>
+                    <td>{{relation.goals}} <img src="{{ url_for('static', filename='images/goal.png')}}" width="18" height="18"></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="line_up">
+            <div class="heading">
+                <span class="optional_description">Equipa</span><span class="optional_description_for_small_screen"> Maregões</span>
+            </div>
+            <table class="table table-striped table_line_up">
+                {% for tup in teams['Maregões']%}
+                {% set relation = tup[0] %}
+                {% set player = tup[1] %}
+                {% set player_url =  url_for('players.general', player_name = player.name , edition_name = edition.name ) %}
+                <tr onclick="redirect('{{player_url}}')">
+                    <td>{{player.id}}</td>
+                    <td><img class="table_profile_image" src="{{ player.full_image_url() }}"></td>
+                    <td>{{player.name}}</td>
+                    <td>{{relation.goals}} <img src="{{ url_for('static', filename='images/goal.png')}}" width="18" height="18"></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

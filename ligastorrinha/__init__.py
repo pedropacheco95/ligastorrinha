@@ -10,7 +10,7 @@ from . import modules
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
-    database_path = 'sqlite:///' + app.root_path + '/database.db'
+    database_path = 'sqlite:///%s/database.db' % app.root_path
 
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = database_path
@@ -25,9 +25,9 @@ def create_app(test_config=None):
         response.headers["Pragma"] = "no-cache"
         return response
 
-    @app.before_first_request
+    """ @app.before_first_request
     def before_first_request():
-        modules.startup.add_to_session()
+        modules.startup.add_to_session() """
 
     # Configure session to use filesystem (instead of signed cookies)
     app.config["SESSION_FILE_DIR"] = mkdtemp()

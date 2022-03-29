@@ -28,16 +28,15 @@ def general(player_name,edition_name=None):
     if not player:
         return redirect(url_for('errors.no_model_with_name', model = 'player',name = player_name))
     if not edition_name:
-        return redirect(url_for('players.general',player_name = player_name, edition_name = player.editions[-1].name))
+        return redirect(url_for('players.general',player_name = player_name, edition_name = player.editions_relations[-1].edition.name))
     edition = Edition.query.filter_by(name = edition_name).first()
-    editions = player.editions
+    editions = player.editions()
 
     association = Association_PlayerEdition.query.filter_by(player_id = player.id, edition_id = edition.id).first()
 
     games = player.games_played_on_edition(edition)
-    values = association.get_player_results()
 
-    return render_template('players/general.html', view='general', player = player , edition = edition , editions = editions, games = games , values= values)
+    return render_template('players/general.html', view='general', player = player , edition = edition , editions = editions, games = games , association= association)
 
 @bp.route('/games_played/<player_name>', methods=('GET', 'POST'))
 def games_played(player_name):
@@ -46,7 +45,7 @@ def games_played(player_name):
     if not player:
         return redirect(url_for('errors.no_model_with_name', model = 'player',name = player_name))
 
-    games = player.games
+    games = player.games_played()
 
     return render_template('players/games_played.html', view='games_played', player = player , games = games)
 
@@ -56,12 +55,4 @@ def all_editions(player_name,edition_name=None):
     player = Player.query.filter_by(name=player_name).first()
     if not player:
         return redirect(url_for('errors.no_model_with_name', model = 'player',name = player_name))
-    editions = player.editions
-
-    values = {}
-    for edition in editions:
-        association = Association_PlayerEdition.query.filter_by(player_id = player.id, edition_id = edition.id).first()
-        values[edition.name] = association.get_player_results()
-        values[edition.name]['edition'] = edition
-
-    return render_template('players/all_editions.html', view='all_editions', player = player , values= values)
+    return render_template('players/all_editions.html', view='all_editions', player = player)

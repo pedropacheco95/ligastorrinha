@@ -15,6 +15,9 @@ class Association_PlayerGame(db.Model ,model.Model, model.Base):
     team = Column(Enum('Branquelas','Maregões',name='teams'), primary_key=True)
     goals =  Column(Integer)
 
+    game = relationship('Game', back_populates='players_relations')
+    player = relationship('Player', back_populates='games_relations')
+
     def get_game(self):
         return Game.query.filter_by(id=self.game_id).first()
 

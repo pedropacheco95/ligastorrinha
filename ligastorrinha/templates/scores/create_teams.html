@@ -4,7 +4,7 @@
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
-        <td width="100%" valign="top" style="padding-top: 10px">
+        <td width="100%" valign="top" class="players_info_container">
             <div class="smallheader" style="color: rgb(255, 255, 255)">
             Equipas
             </div>
@@ -23,38 +23,38 @@
                 <tbody>
                     <tr>
                         <td></td>
-                        <td>{{players[0]}}</td>
-                        <td>{{players[1]}}</td>
+                        <td>{{players[0].name}}</td>
+                        <td>{{players[1].name}}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>{{players[3]}}</td>
-                        <td>{{players[2]}}</td>
+                        <td>{{players[3].name}}</td>
+                        <td>{{players[2].name}}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>{{players[5]}}</td>
-                        <td>{{players[4]}}</td>
+                        <td>{{players[5].name}}</td>
+                        <td>{{players[4].name}}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>{{players[6]}}</td>
-                        <td>{{players[7]}}</td>
+                        <td>{{players[6].name}}</td>
+                        <td>{{players[7].name}}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>{{players[8]}}</td>
-                        <td>{{players[9]}}</td>
+                        <td>{{players[8].name}}</td>
+                        <td>{{players[9].name}}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>{{players[11]}}</td>
-                        <td>{{players[10]}}</td>
+                        <td>{{players[11].name}}</td>
+                        <td>{{players[10].name}}</td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -69,13 +69,14 @@
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
-        <td width="100%" valign="top" style="padding-top: 10px">
+        <td width="100%" valign="top" class="players_info_container">
             <br />
-            <div class="box_container">
-                <form action="{{url_for('scores.create_teams', league_name = league.name , edition_name = edition.name )}}" method="post">
+            <div>
+                <form action="{{url_for('scores.create_teams', league_id = league.id , edition_id = edition.id )}}" method="post">
                     <button class="btn btn-primary" type="submit"> Fazer Equipas </button>
                 </form>
             </div>
+            <br />
         </td>
         </tr>
     </tbody>

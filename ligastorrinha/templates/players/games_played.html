@@ -4,7 +4,7 @@
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
-            <td width="100%" valign="top" style="padding-top: 10px">
+            <td width="100%" valign="top" class="players_info_container">
                 <div class="smallheader" style="color: rgb(255, 255, 255)">
                     Jogos
                 </div>
@@ -48,7 +48,7 @@
                                             </a>
                                         </div>
                                         <div class="text">
-                                            <a href="{{ url_for('scores.table', league_name=game.edition.league.name) }}">{{ game.edition.league.name[0] }}L</a>
+                                            <a href="{{ url_for('scores.table', league_id=game.edition.league.id) }}">{{ game.edition.league.name[0] }}L</a>
                                         </div>
                                     </td>
                                 </tr>

@@ -4,7 +4,7 @@
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
-            <td width="100%" valign="top" style="padding-top: 10px">
+            <td class="top_table_header" width="100%" valign="top" class="players_info_container">
                 <div class="smallheader" style="color: rgb(255, 255, 255)">
                     Resumo
                 </div>
@@ -18,7 +18,7 @@
                         </select>
                     </form>
                 </div>
-                <div class="box_container">
+                <div class="box_container" style="width: 95%;">
                     <table style="background-color: rgba(255, 255, 255, 1);" width="100%">
                         <thead style="background-color: rgba(13, 121, 209, 0.493);">
                             <th class="optional"></th>
@@ -43,20 +43,20 @@
                                 <td class="optional">
                                     {{ edition.name }}
                                 </td>
-                                <td><strong>{{values["points"]}}</strong></td>
-                                <td class="optional">{{values["appearances"]}}</td>
-                                <td>{{values["goals"]}}</td>
-                                <td class="optional">{{values["percentage of appearances"]}}</td>
-                                <td>{{values["wins"]}}</td>
-                                <td class="optional">{{values["draws"]}}</td>
-                                <td>{{values["losts"]}}</td>
+                                <td><strong>{{association.points}}</strong></td>
+                                <td class="optional">{{association.appearances}}</td>
+                                <td>{{association.goals}}</td>
+                                <td class="optional">{{association.percentage_of_appearances}}</td>
+                                <td>{{association.wins}}</td>
+                                <td class="optional">{{association.draws}}</td>
+                                <td>{{association.losts}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </td>
         <tr>
-            <td width="100%" valign="top" style="padding-top: 10px">
+            <td width="100%" valign="top" class="players_info_container">
                 <div class="smallheader" style="color: rgb(255, 255, 255)">
                     Jogos
                 </div>
@@ -109,7 +109,7 @@
                                             </a>
                                         </div>
                                         <div class="text">
-                                            <a href="{{ url_for('scores.table', league_name=game.edition.league.name) }}">{{ game.edition.league.name[0] }}L</a>
+                                            <a href="{{ url_for('scores.table', league_id=game.edition.league.id) }}">{{ game.edition.league.name[0] }}L</a>
                                         </div>
                                     </td>
                                 </tr>

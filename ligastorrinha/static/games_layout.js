@@ -1,4 +1,4 @@
-window.addEventListener('load',function(){
+/* window.addEventListener('load',function(){
     if (window.innerWidth < 775){
         reduceWindow();
     };
@@ -40,4 +40,4 @@ function enlargeWindow(){
     for (let not_optional of not_optionals){
         not_optional.innerHTML = not_optional.getAttribute("name");
     }
-}
+} */

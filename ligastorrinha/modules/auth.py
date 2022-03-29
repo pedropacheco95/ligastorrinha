@@ -79,6 +79,7 @@ def edit():
         if request.form.get('birth_date'):
             birth_date = datetime.datetime.strptime(request.form.get('birth_date'), '%Y-%m-%d')
         file = request.files['picture']
+        filename = None
         if file.filename != '':
             if player_id:
                 filename = os.path.join('images','Players',str(player_id) + '.jpg')
@@ -102,6 +103,8 @@ def edit():
                     player.full_name = full_name
                 if birth_date:
                     player.birthday = birth_date
+                if filename:
+                    player.image_url = str(player_id) + '.jpg'
                 player.save()
             return redirect(url_for('main.index'))
         

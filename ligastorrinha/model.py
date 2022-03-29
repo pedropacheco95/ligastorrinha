@@ -35,6 +35,12 @@ class Model():
     def get_table(self,model):
         return db.session.query(self.table_object(table_name=model))
 
+    def all_tables_object(self):
+        return {table.__tablename__: table for table in db.Model.__subclasses__()}
+
+    def get_all_tables(self):
+        return {table.__tablename__: db.session.query(table) for table in db.Model.__subclasses__()}
+
     def table_object(self,table_name):
         tables_dict = {table.__tablename__: table for table in db.Model.__subclasses__()}
         return tables_dict.get(table_name)

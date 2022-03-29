@@ -13,7 +13,7 @@ def choose_new_edition_scores(view):
         edition_name = request.form['edicao']
         edition = Edition.query.filter_by(name=edition_name).first()
         league = League.query.filter_by(id=edition.league_id).first()
-        return redirect(url_for('scores.index',view = view ,league_name = league.name, edition_name = edition.name))
+        return redirect(url_for('scores.index',view = view ,league_id = league.id, edition_id = edition.id))
 
     return redirect(url_for('main.index'))
 

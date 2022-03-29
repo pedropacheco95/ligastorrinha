@@ -1,3 +1,14 @@
 {% extends "create/layout.html" %}
 {% block create %}
+<div style="background-color: rgb(255, 255, 255) !important">
+    <nav class="navbar navbar-expand-md navbar-light bg-light border">
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto mt-2" style="width: 100%;">
+                <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('create.game') }}">Jogo</a></li>
+                <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('create.player') }}">Jogador</a></li>
+                <li class="nav-item" style="width: 25%;"><a class="nav-link" href="{{ url_for('create.edition') }}">Edição</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
 {% endblock %}

@@ -7,7 +7,14 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/', methods=('GET', 'POST'))
 def index():
-    if 'leagues' not in session.keys():
-        leagues = League.query.all()
-        session['leagues'] = leagues
-    return render_template('index.html')
+    return render_template('main/index.html')
+
+@bp.route('/leagues', methods=('GET', 'POST'))
+def leagues():
+    leagues = League.query.all()
+    return render_template('main/leagues.html',leagues=leagues)
+
+@bp.route('/players', methods=('GET', 'POST'))
+def players():
+    players = Player.query.all()
+    return render_template('main/players.html',players=players)

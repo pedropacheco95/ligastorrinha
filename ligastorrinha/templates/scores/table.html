@@ -3,13 +3,13 @@
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
-        <td width="100%" valign="top" style="padding-top: 10px">
+        <td width="100%" valign="top" class="players_info_container">
             <div class="smallheader" style="color: rgb(255, 255, 255)">
             Classificação
             </div>
             <br />
             <div class="box_container">
-            <table cellspacing="0" cellpadding="0" style="background-color: rgba(255, 255, 255, 1);">
+            <table cellspacing="0" cellpadding="0" style="background-color: rgba(255, 255, 255, 1);width: 100%;">
                 <thead>
                 <tr>
                     <th width="5%"></th>
@@ -28,38 +28,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for name in table_values.keys() %}
-                {% if (table_values[name]["place"] == 1) %}
+                {% for relation in edition.players_relations_classification() %}
+                {% if (relation.place == 1) %}
                 <tr style="background-color: rgba(0, 88, 252, 0.308)">
-                {% elif (table_values[name]["place"] == 12) %}
+                {% elif (relation.place == 12) %}
                 <tr style="background-color: rgba(255, 0, 0, 0.288)">
-                {% elif (table_values[name]["place"] < 7) %}
+                {% elif (relation.place < 7) %}
                 <tr style="background-color: rgba(0, 153, 255, 0.2)">
                 {% else %}
                 <tr style="background-color: rgba(228, 120, 120, 0.2)">
                 {% endif %}
-                    <td style="">{{table_values[name]["place"]}}</td>
-                    <td class="text" style="">
+                    <td>{{relation.place}}</td>
+                    <td class="text">
                         <a>
-                            <form action="{{ url_for('players.general', player_name = name , edition_name = edition.name )}}">
+                            <form action="{{ url_for('players.general', player_name = relation.player.name , edition_name = edition.name )}}">
                                 <button type="submit" id="player_name" class="discret_button">
-                                    {{ name }}
+                                    {{ relation.player.name }}
                                 </button>
                             </form>
                         </a>
                     </td>
-                    <td><strong>{{table_values[name]["points"]}}</strong></td>
-                    <td class="optional">{{table_values[name]["appearances"]}}</td>
-                    <td>{{table_values[name]["goals"]}}</td>
-                    <td class="optional">{{table_values[name]["percentage of appearances"]}}</td>
-                    <td>{{table_values[name]["wins"]}}</td>
-                    <td class="optional">{{table_values[name]["draws"]}}</td>
-                    <td>{{table_values[name]["losts"]}}</td>
-                    <td class="optional">{{table_values[name]["goals scored by team"]}}</td>
-                    <td class="optional">{{table_values[name]["goals suffered by team"]}}</td>
+                    <td><strong>{{relation.points}}</strong></td>
+                    <td class="optional">{{relation.appearances}}</td>
+                    <td>{{relation.goals}}</td>
+                    <td class="optional">{{relation.percentage_of_appearances}}</td>
+                    <td>{{relation.wins}}</td>
+                    <td class="optional">{{relation.draws}}</td>
+                    <td>{{relation.losts}}</td>
+                    <td class="optional">{{relation.goals_scored_by_team}}</td>
+                    <td class="optional">{{relation.goals_suffered_by_team}}</td>
                     <td class="optional">
-                    {{table_values[name]["goals scored by team"] -
-                    table_values[name]["goals suffered by team"]}}
+                    {{relation.goals_scored_by_team - relation.goals_suffered_by_team}}
                     </td>
                     <!-- Para por a setinha a dizer se subiu ou desceu -->
                     <td class="optional"></td>
