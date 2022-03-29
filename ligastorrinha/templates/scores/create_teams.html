@@ -4,7 +4,7 @@
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
-        <td width="100%" valign="top" style="padding-top: 10px">
+        <td width="100%" valign="top" class="players_info_container">
             <div class="smallheader" style="color: rgb(255, 255, 255)">
             Equipas
             </div>
@@ -69,13 +69,14 @@
 <table width="100%" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
-        <td width="100%" valign="top" style="padding-top: 10px">
+        <td width="100%" valign="top" class="players_info_container">
             <br />
-            <div class="box_container">
+            <div>
                 <form action="{{url_for('scores.create_teams', league_id = league.id , edition_id = edition.id )}}" method="post">
                     <button class="btn btn-primary" type="submit"> Fazer Equipas </button>
                 </form>
             </div>
+            <br />
         </td>
         </tr>
     </tbody>

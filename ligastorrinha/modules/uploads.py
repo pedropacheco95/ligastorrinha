@@ -73,6 +73,8 @@ def upload_csv_to_db():
         columns = line.split(",")
         if columns[0] != 'id':
             liga = League(name=columns[1])
+            if columns[2]:
+                liga.picture = columns[2]
             liga.create()
             leagues[columns[0]] = liga
     f.close()
@@ -188,8 +190,6 @@ def export_db_to_csv():
             for field in models[model]:
                 instance_values.append(getattr(instance, field))
             values[model].append(instance_values)
-
-    print(models)
 
     for model in models.keys():
         file = os.path.join('ligastorrinha/static/data/csv', '%s.csv' % model)

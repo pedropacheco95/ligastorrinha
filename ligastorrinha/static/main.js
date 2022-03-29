@@ -1,9 +1,5 @@
 function redirect(url){
-    $.ajax({
-        url: url,
-        method: "GET",
-        success: call_back()
-    })
+    window.location.href = url
 }
 
 /* When the user clicks on the button, 

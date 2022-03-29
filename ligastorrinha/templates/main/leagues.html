@@ -2,37 +2,14 @@
 
 {% block main %}
 <div class="leagues_container">
-    <div class="league_container">
-        <a href="">
-            <div class="gradient_background">
-                <img class="gradient_background" src="https://www.zerozero.pt/img/logos/competicoes/3_imgbank_menu_med_20210829175047.png">
-            </div>
-            <div class="centered">Liga Portuguesa</div>
-        </a>
-    </div>
-    <div class="league_container">        
-        <a href="">
-            <div class="gradient_background">
-                <img class="gradient_background" src="https://www.zerozero.pt/img/logos/competicoes/1199_imgbank_menu_med_20190319083702.png" alt="">
-            </div>
-            <div class="centered"><button class="btn btn-primary">Qualificação Euro</button></div>
-        </a>
-    </div>
-    <div class="league_container">        
-        <a href="">
-            <div class="gradient_background">
-                <img class="gradient_background" src="https://www.zerozero.pt/img/logos/competicoes/1199_imgbank_menu_med_20190319083702.png" alt="">
-            </div>
-            <div class="centered">Qualificação Euro</div>
-        </a>
-    </div>
-    <div class="league_container">        
-        <a href="">
-            <div class="gradient_background">
-                <img class="gradient_background" src="https://www.zerozero.pt/img/logos/competicoes/1199_imgbank_menu_med_20190319083702.png" alt="">
-            </div>
-            <div class="centered">Qualificação Euro</div>
-        </a>
-    </div>
+    {% for league in leagues%}
+        <div class="league_container">
+            <a href="{{ url_for('scores.table', league_id=league.id) }}">
+                <div>
+                    <img class="league_image" src="{{league.full_image_url()}}">
+                </div>
+            </a>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

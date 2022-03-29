@@ -15,70 +15,6 @@ bp = Blueprint('create', __name__, url_prefix='/create')
 def index():
     return render_template('create/index.html')
 
-@admin_required
-@bp.route('/game', methods=('GET', 'POST'))
-@bp.route('/game/<edition_name>', methods=('GET', 'POST'))
-def game(edition_name = None):
-
-    edition = Edition.query.filter_by(name=edition_name).first()
-    if not edition:
-        return redirect(url_for('create.choose_edition' , view = 'game'))
-
-    today = datetime.date.today()
-    if edition.league == 'MasterLeague':
-        offset = (today.weekday() - 3) % 7
-        default_day = today - datetime.timedelta(days=offset)
-    if edition.league == 'TuesdayLeague':
-        offset = (today.weekday() - 1) % 7
-        default_day = today - datetime.timedelta(days=offset)
-    else:
-        default_day = today
-
-    if request.method == 'POST':
-        branquelas = []
-        maregoes = []
-        for i in range(6):
-            player_key = 'jogador_Branquelas_' + str(i)
-            goals_key = 'goals_jogador_Branquelas_' + str(i)
-            player_name = request.form.get(player_key)
-            goals = request.form.get(goals_key)
-            branquelas.append({'player':Player.query.filter_by(name = player_name).first(), 'goals':int(goals) if goals else 0})
-            
-            player_key = 'jogador_Maregões_' + str(i)
-            goals_key = 'goals_jogador_Maregões_' + str(i)
-            player_name = request.form.get(player_key)
-            goals = request.form.get(goals_key)
-            maregoes.append({'player':Player.query.filter_by(name = player_name).first(), 'goals':int(goals) if goals else 0})
-        
-        goals_team1 = request.form.get('goals_teams1')
-        goals_team2 = request.form.get('goals_teams2')
-        date = datetime.datetime.strptime(request.form.get('game_date'), '%Y-%m-%d')
-
-        winner = 0
-        if int(goals_team2) > int(goals_team1):
-            winner = -1
-        elif int(goals_team1) > int(goals_team2):
-            winner = 1
-
-        game = Game(goals_team1=int(goals_team1),goals_team2=int(goals_team2),winner=winner,edition_id=edition.id,matchweek = len(edition.games)+1,date=date)
-        game.create()
-        for dic in branquelas:
-            player = dic['player']
-            if player:
-                team = 'Branquelas'
-                association = Association_PlayerGame(player_id= player.id, game_id = game.id,team = team,goals=int(dic['goals']))
-                association.create()
-                Association_PlayerEdition.query.filter_by(player_id = player.id, edition_id = edition.id).first().get_player_results(True)
-        for dic in maregoes:
-            player = dic['player']
-            if player:
-                team = 'Maregões'
-                association = Association_PlayerGame(player_id= player.id, game_id = game.id,team = team,goals=int(dic['goals']))
-                association.create()
-                Association_PlayerEdition.query.filter_by(player_id = player.id, edition_id = edition.id).first().get_player_results(True)
-        return redirect(url_for('main.index'))
-    return render_template('create/game.html', edition = edition , default_day=default_day)
-
 @bp.route('/player', methods=('GET', 'POST'))
 def player():
     if request.method == 'POST':
@@ -136,3 +72,66 @@ def choose_edition(view):
         return redirect(url_for(url,edition_name=edition_name))
 
     return render_template('create/choose_edition.html', editions = editions)
+
+@admin_required
+@bp.route('/game', methods=('GET', 'POST'))
+@bp.route('/game/<edition_name>', methods=('GET', 'POST'))
+def game(edition_name=None):
+    edition = Edition.query.filter_by(name=edition_name).first()
+    if not edition:
+        return redirect(url_for('create.choose_edition' , view='game'))
+    if request.method == 'POST':
+        error = None
+        goals_team1 = [int(goals) for goals in request.form.getlist('goals_team1') if goals]
+        goals_team2 = [int(goals) for goals in request.form.getlist('goals_team2') if goals]
+        if not goals_team1 or not goals_team2:
+            error = 'Uma das equipas não tem um numero de golos definido'
+
+        player_team1_ids = [int(id) for id in request.form.getlist('player_team_1') if id and id != 'player_missing']
+        players_team1 = Player.query.filter(Player.id.in_(tuple(player_team1_ids))).all()
+
+        player_team2_ids = [int(id) for id in request.form.getlist('player_team_2') if id and id != 'player_missing']
+        players_team2 = Player.query.filter(Player.id.in_(tuple(player_team2_ids))).all()
+
+        if list(set(players_team1).intersection(players_team2)):
+            error = 'Houve um jogador posto nas duas equipas'
+        if not error:
+            goals_team1 = goals_team1[0]
+            goals_team2 = goals_team2[0]
+            winner = 1 if goals_team1 > goals_team2 else -1 if goals_team1 < goals_team2 else 0
+            date = datetime.datetime.strptime(request.form.get('game_date'), '%Y-%m-%d')
+            matchweek = max([game.matchweek for game in edition.games]) + 1
+            game = Game(goals_team1=goals_team1,goals_team2=goals_team2,winner=winner,edition_id=edition.id,matchweek = matchweek,date=date)
+            game.create()
+
+            for player in players_team1:
+                goals_string = request.form.get('goals_{id}'.format(id=player.id))
+                goals = int(goals_string) if goals_string else 0
+                team = 'Branquelas'
+                association = Association_PlayerGame(player_id= player.id, game_id = game.id,team = team,goals=goals)
+                association.create()
+
+            for player in players_team2:
+                goals_string = request.form.get('goals_{id}'.format(id=player.id))
+                goals = int(goals_string) if goals_string else 0
+                team = 'Maregões'
+                association = Association_PlayerGame(player_id= player.id, game_id = game.id,team = team,goals=goals)
+                association.create()
+
+            return redirect(url_for('scores.table',league_id = edition.league.id,edition_id=edition.id,recalculate=True))
+        flash(error)
+
+    default_day = datetime.date.today()
+    if edition.league.name == 'MasterLeague':
+        offset = (default_day.weekday() - 3) % 7
+        default_day -= datetime.timedelta(days=offset)
+    elif edition.league.name == 'TuesdayLeague':
+        offset = (default_day.weekday() - 1) % 7
+        default_day -= datetime.timedelta(days=offset)
+
+    player_ids = edition.players_ids_last_team()
+    players = [Player.query.filter_by(id=player_id).first() for player_id in player_ids] 
+
+    edition_players = [rel.player for rel in edition.players_relations]
+
+    return render_template('create/game.html', edition=edition , default_day=default_day,players=players,edition_players=edition_players)

@@ -1,6 +1,6 @@
 from ligastorrinha import model 
 from ligastorrinha.sql_db import db
-from sqlalchemy import Column, Integer , String , Table, ForeignKey , Boolean, Date
+from sqlalchemy import Column, Integer , String , Text, ForeignKey , Boolean, Date
 from sqlalchemy.orm import relationship
 
 class Edition(db.Model ,model.Model , model.Base):
@@ -24,15 +24,17 @@ class Edition(db.Model ,model.Model , model.Base):
         return self.games
 
     def get_played_matches(self):
-        return [game for game in self.games if game.played]
+        #[game for game in self.games if game.played]
+        return self.games
 
     def players_classification(self,update_places=None):
-        return [rel.player for rel in self.players_relations_classification(update_places=None)]
+        return [rel.player for rel in self.players_relations_classification(update_places)]
 
     def players_relations_classification(self,update_places=None):
         sorted_by_points = self.players_relations
         sorted_by_points.sort(key=lambda x: x.points, reverse=True)
-        if update_places:
+        incomplete_relation = [rel for rel in self.players_relations if not rel.place]
+        if update_places or incomplete_relation:
             for index,rel in enumerate(sorted_by_points):
                 rel.last_place = rel.place
                 rel.place = index + 1
@@ -63,14 +65,15 @@ class Edition(db.Model ,model.Model , model.Base):
         if not self.matchweek_updated() or force_update:
             for relation in self.players_relations:
                 player = relation.player
-                wins = len(player.games_won(self))
-                draws = len(player.games_drawn(self))
-                losts = len(player.games_lost(self))
-                goals = player.goals()
+                games_won , games_drawn , games_lost = player.get_all_results(self)
+                wins = len(games_won)
+                draws = len(games_drawn)
+                losts = len(games_lost)
+                goals = player.goals(self)
                 goals_scored_by_team = player.goals_scored_by_team(self)
                 goals_suffered_by_team = player.goals_suffered_by_team(self)
 
-                points = wins * 3 + draws * 1
+                points = wins * 4 + draws * 2 + losts + goals*0.1
                 appearances = len(player.games_played_on_edition(self))
                 percentage_of_appearances = round((appearances / len(self.get_played_matches()))*100,2)
 

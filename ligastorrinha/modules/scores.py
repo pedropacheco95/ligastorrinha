@@ -36,7 +36,7 @@ def table(league_id,edition_id=None,recalculate=None):
         return redirect(url_for('scores.table', league_id = league_id, edition_id = league.editions[-1].id))
     edition = Edition.query.filter_by(id=edition_id).first()
     if recalculate:
-        edition.players_relations_classification(update_places=True)
+        edition.update_table(force_update=True)
 
     return render_template('scores/table.html', view='table',league = league, edition = edition)
 

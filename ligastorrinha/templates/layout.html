@@ -51,8 +51,9 @@
                         </li>
                     </ul>
                     {% if session['user'] %}
-                        <ul class="navbar-nav ml-auto mt-2">
+                        <ul class="navbar-nav ml-auto mt-2 hide_in_small_screen">
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.edit') }}">{{ session['user'].username }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('create.game') }}">Criar jogos</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a></li>
                             {% if session['user'].username == 'admin' and session['user'].id == 1 %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('create.index') }}">Create</a></li>
@@ -60,12 +61,28 @@
                             {% endif %}
                         </ul>
                     {%else%}
-                        <ul class="navbar-nav ml-auto mt-2">
+                        <ul class="navbar-nav ml-auto mt-2 hide_in_small_screen">
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
                         </ul>
                     {% endif %}
                 </div>
+            </nav>
+
+            <nav class="c-main-nav" id="main-nav"> 
+                <ul class="c-main-nav__block u-list-clean">
+                    <li class="c-main-nav__item for_login_logout">
+                        {% if not session['user'] %}
+                        <a class="c-main-nav__link" href="{{url_for('auth.login')}}">Log in</a><a class="c-main-nav__link" href="{{url_for('auth.register')}}">Registar</a>
+                        {% else %}
+                            {% if admin%}
+                            <a class="c-main-nav__link" href="">Adicionar jogos</a><a class="c-main-nav__link" href="{{url_for('auth.logout')}}">Log out</a>
+                            {% else %}
+                            <a class="c-main-nav__link" href="{{ url_for('auth.edit') }}">{{ session['user'].username }}</a><a class="c-main-nav__link" href="{{ url_for('create.game') }}">Editar jogos</a><a class="c-main-nav__link" href="{{url_for('auth.logout')}}">Log out</a>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                </ul>
             </nav>
 
             {% if get_flashed_messages() %}
@@ -76,7 +93,7 @@
                 </header>
             {% endif %}
 
-            <main class="container p-5">
+            <main class="">
                 {% block main %}{% endblock %}
             </main>
 
