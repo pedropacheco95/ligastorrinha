@@ -102,7 +102,10 @@ def upload_csv_to_db():
             name = columns[1]
             full_name = columns[2] if columns[2] else None
             birthday = datetime.datetime.strptime(columns[3], '%Y-%m-%d') if columns[3] else None
+            image_url = columns[4] if columns[4] else None
             player = Player(name=name,full_name=full_name,birthday=birthday)
+            if image_url:
+                player.image_url = image_url
             player.create()
             players[columns[0]] = player
     f.close()
