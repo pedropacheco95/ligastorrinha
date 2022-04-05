@@ -1,9 +1,9 @@
 import functools
 
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for , jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ligastorrinha.models import Edition , League
+from ligastorrinha.models import Edition , League , Player
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -25,3 +25,10 @@ def choose_new_edition_players(view,player_name):
         return redirect(url_for('players.index',view = view ,player_name = player_name, edition_name = edition.name))
 
     return redirect(url_for('main.index'))
+
+@bp.route('/player_image_url/<id>')
+def player_image_url(id):
+    if id == 'player_missing':
+        return jsonify(url_for('static', filename="images/Players/no_player.png"))
+    player = Player.query.filter_by(id=id).first()
+    return jsonify(player.full_image_url())

@@ -1,3 +1,5 @@
+import random
+
 from ligastorrinha import model 
 from ligastorrinha.sql_db import db
 from sqlalchemy import Column, Integer , String , Text, ForeignKey , Boolean, Date
@@ -119,4 +121,20 @@ class Edition(db.Model ,model.Model , model.Base):
         return True
 
     def players_ids_last_team(self):
-        return [int(player_id) for player_id in self.last_team[:-1].split(';')]
+        players = [rel.player.id for rel in self.players_relations]
+        if self.last_team:
+            players = [int(player_id) for player_id in self.last_team[:-1].split(';')]
+        return players
+
+    def make_teams(self):
+        players = self.players_classification(update_places=True)
+
+        if self.league.name == 'MasterLeague':
+            random.shuffle(players)
+
+        teams = {
+            'Branquelas':[players[0],players[3],players[5],players[7],players[8],players[11]],
+            'Maregões':[players[1],players[2],players[4],players[6],players[9],players[10]],
+        }
+
+        return teams
