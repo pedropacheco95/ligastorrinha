@@ -21,42 +21,14 @@
                 </tr>
                 </thead>
                 <tbody>
+                    {% for index in range(teams['Branquelas']|length) %}
                     <tr>
                         <td></td>
-                        <td>{{players[0].name}}</td>
-                        <td>{{players[1].name}}</td>
+                        <td>{{teams['Branquelas'][index].name}}</td>
+                        <td>{{teams['Maregões'][index].name}}</td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td>{{players[3].name}}</td>
-                        <td>{{players[2].name}}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>{{players[5].name}}</td>
-                        <td>{{players[4].name}}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>{{players[6].name}}</td>
-                        <td>{{players[7].name}}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>{{players[8].name}}</td>
-                        <td>{{players[9].name}}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>{{players[11].name}}</td>
-                        <td>{{players[10].name}}</td>
-                        <td></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
             </div>

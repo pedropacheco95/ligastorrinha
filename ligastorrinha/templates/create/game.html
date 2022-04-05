@@ -76,11 +76,11 @@
                         <span class="optional_description">Equipa</span><span class="optional_description_for_small_screen">Branquelas</span>
                     </div>
                     <table class="table table-striped table_line_up">
-                        {% for player in players[6:]%}
+                        {% for player in players[:6]%}
                         {% set player_url =  url_for('players.general', player_name = player.name , edition_name = edition.name ) %}
                         <tr>
                             <td>{{player.id}}</td>
-                            <td><img class="table_profile_image" src="{{ player.full_image_url() }}"></td>
+                            <td><img id="image_{{loop.index}}" class="table_profile_image" src="{{ player.full_image_url() }}"></td>
                             <td>
                                 <select name="player_team_1" onchange="changePlayer('{{loop.index}}',this)">
                                     <option value="player_missing"> </option>
@@ -106,13 +106,13 @@
                         <span class="optional_description">Equipa</span><span class="optional_description_for_small_screen"> Maregões</span>
                     </div>
                     <table class="table table-striped table_line_up">
-                        {% for player in players[:6]%}
+                        {% for player in players[6:]%}
                         {% set player_url =  url_for('players.general', player_name = player.name , edition_name = edition.name ) %}
                         <tr>
                             <td>{{player.id}}</td>
-                            <td><img class="table_profile_image" src="{{ player.full_image_url() }}"></td>
+                            <td><img id="image_{{loop.index + 6 }}" class="table_profile_image" src="{{ player.full_image_url() }}"></td>
                             <td>
-                                <select name="player_team_2" onchange="changePlayer('{{loop.index + 6}}')">
+                                <select name="player_team_2" onchange="changePlayer('{{loop.index + 6}}',this)">
                                     <option value="player_missing"> </option>
                                     {% for edition_player in edition_players %}
                                         {% if player==edition_player %}

@@ -79,19 +79,17 @@ def create_teams(league_id,edition_id=None):
     edition = Edition.query.filter_by(id=edition_id).first()
 
     if request.method == 'POST':
-        players = edition.players_classification(update_places=True)
-
-        if league.name == 'MasterLeague':
-            random.shuffle(players)
+        teams = edition.make_teams()
 
         last_team = ''
-        for player in players:
-            last_team += '{player_id};'.format(player_id = player.id)
+        for key in teams:
+            for player in teams[key]:
+                last_team += '{player_id};'.format(player_id = player.id)
 
         edition.last_team = last_team
         edition.number_of_teams_made += 1
         edition.save()
 
-        return render_template('scores/create_teams.html', view='create_teams', show = True, players=players,league = league, edition = edition)
+        return render_template('scores/create_teams.html', view='create_teams', show = True, teams=teams,league = league, edition = edition)
 
     return render_template('scores/create_teams.html', view='create_teams', show = False,league = league, edition = edition)
