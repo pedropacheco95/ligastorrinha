@@ -1,3 +1,4 @@
+
 import random
 
 from ligastorrinha import model 
@@ -12,8 +13,8 @@ class Edition(db.Model ,model.Model , model.Base):
     name = Column(String(80), unique=True, nullable=False)
     time = Column(String(10))
     final_game = Column(Date)
-    has_ended = Column(Boolean)
-    number_of_teams_made = Column(Integer)
+    has_ended = Column(Boolean,default=False)
+    number_of_teams_made = Column(Integer,default=0)
     league_id = Column(Integer, ForeignKey('leagues.id'))
     last_team = Column(String(40))
 
