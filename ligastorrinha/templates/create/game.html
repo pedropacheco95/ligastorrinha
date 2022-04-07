@@ -106,10 +106,6 @@
                     </div>
                     <table class="table table-striped table_line_up">
                         {% for player in players[6:]%}
-<<<<<<< HEAD
-=======
-                        {% set player_url =  url_for('players.general', player_name = player.name , edition_name = edition.name ) %}
->>>>>>> 2792912412e43960653c2c8a178501cb224218fc
                         <tr>
                             <td>{{player.id}}</td>
                             <td><img id="image_{{loop.index + 6 }}" class="table_profile_image" src="{{ player.full_image_url() }}"></td>
