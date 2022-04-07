@@ -28,7 +28,8 @@ main
 }
 
 .goals_of_team_input{
-    width:5rem;
+    width: 7rem;
+    text-align: center;
 }
 
 .goals_of_player_input{
@@ -333,6 +334,17 @@ select {
         flex-direction: column;
         align-items: center;
     }
+
+    .ranking_block{
+        width: 90%;
+    }
+
+
+.player_image .table_profile_image {
+    height: 9rem!important;
+    width: 9rem!important;
+    border-radius: 50%;
+}
 }
 
 .optional_description_for_small_screen{
@@ -550,4 +562,82 @@ select {
 
 a:hover, a:visited, a:link, a:active{
     text-decoration: none!important;
+}
+
+.player_list_container{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 120rem;
+    padding-bottom: 5rem;
+}
+
+.players_ranking{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.7rem;
+    z-index: 5;
+    position: relative;
+    padding-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.player_cards_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    background: white;
+}
+
+.player_card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.player_card_container{
+    list-style: none;
+    padding: 1rem;
+}
+
+.player_card_header{
+    display: flex;
+    flex-direction: row;
+    padding: 2rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player_card_footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #22356d;
+    color: white;
+    font-weight: bold;
+}
+
+.player_details{
+    min-width: 8rem;
+    color: #22356d;
+}
+
+.player_position{
+    font-size: 3.5rem;
+}
+
+.player_card_container:hover{
+    background-color: #b6b6b6;
+}
+
+.player_card__name{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.player_image .table_profile_image{
+    height: 11rem;
+    width: 11rem;
+    border-radius: 50%;
 }

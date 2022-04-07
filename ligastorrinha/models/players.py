@@ -69,26 +69,29 @@ class Player(db.Model ,model.Model, model.Base):
         goals_suffered_by_team = [relation.game.goals_team1 if relation.team=='Maregões' else relation.game.goals_team2 for relation in relations]
         return sum(goals_suffered_by_team)
 
-    def games_won(self, edition):
+    def games_won(self, edition=None):
         relations = self.get_games_relations_played(edition)
         return [rel.game for rel in relations if rel.team=='Branquelas' and rel.game.winner==1 or rel.team=='Maregões' and rel.game.winner==-1 ]
 
-    def games_drawn(self, edition):
+    def games_drawn(self, edition=None):
         relations = self.get_games_relations_played(edition)
         return [rel.game for rel in relations if rel.game.winner==0]
 
-    def games_lost(self, edition):
+    def games_lost(self, edition=None):
         relations = self.get_games_relations_played(edition)
         return [rel.game for rel in relations if rel.team=='Maregões' and rel.game.winner==1 or rel.team=='Branquelas' and rel.game.winner==-1 ]
 
-    def get_all_results(self, edition):
+    def get_all_results(self, edition=None):
         relations = self.get_games_relations_played(edition)
         won = [rel.game for rel in relations if rel.team=='Branquelas' and rel.game.winner==1 or rel.team=='Maregões' and rel.game.winner==-1 ]
         drawn = [rel.game for rel in relations if rel.game.winner==0]
         lost = [rel.game for rel in relations if rel.team=='Maregões' and rel.game.winner==1 or rel.team=='Branquelas' and rel.game.winner==-1 ]
         return won, drawn , lost
 
-    def goals(self, edition):
+    def goals(self, edition=None):
         relations = self.get_games_relations_played(edition)
         goals = [rel.goals for rel in relations]
         return sum(goals)
+
+    def win_percentage(self,edition=None):
+        return len(self.games_won(edition)) /len(self.get_games_relations_played(edition)) if len(self.get_games_relations_played(edition)) != 0 else 0
