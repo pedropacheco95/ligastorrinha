@@ -139,3 +139,17 @@ class Edition(db.Model ,model.Model , model.Base):
         }
 
         return teams
+
+    def replace_players(self,player_1,player_2):
+        edition_players_ids = [rel.player.id for rel in self.players_relations]
+        rel = next((rel for rel in self.players_relations if rel.player_id == player_1.id), None)
+        if player_2.id in edition_players_ids or not rel:
+            return False
+        relations = player_1.get_games_relations_played(self)
+        for relation in relations:
+            relation.player_id = player_2.id
+            relation.player = player_2
+        rel.player_id = player_2.id
+        rel.player = player_2
+        self.update_table(True)
+        return True
