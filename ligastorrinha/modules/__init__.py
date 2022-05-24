@@ -8,3 +8,4 @@ from . import games
 from . import create
 from . import delete
 from . import startup
+from . import edit
