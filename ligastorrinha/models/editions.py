@@ -146,10 +146,6 @@ class Edition(db.Model ,model.Model , model.Base):
                 team = 'Branquelas' if i % 2 == 0 else 'Maregões'
                 teams[team].append(player)
 
-        print(teams)
-        print(players,len(players))
-        print(self.players_relations,len(self.players_relations))
-
         return teams
 
     def replace_players(self,player_1,player_2):
