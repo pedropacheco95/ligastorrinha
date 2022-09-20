@@ -22,6 +22,9 @@ class Edition(db.Model ,model.Model , model.Base):
     league = relationship('League',back_populates='editions')
     players_relations = relationship('Association_PlayerEdition', back_populates='edition')
 
+    def get_number_of_players(self):
+        return len(self.players_relations)
+
     def get_ordered_games(self):
         self.games.sort(key=lambda x: x.matchweek)
         return self.games
@@ -137,6 +140,11 @@ class Edition(db.Model ,model.Model , model.Base):
             'Branquelas':[players[0],players[3],players[5],players[7],players[8],players[11]],
             'Maregões':[players[1],players[2],players[4],players[6],players[9],players[10]],
         }
+
+        if len(players) > 12:
+            for i,player in enumerate(players[12:]):
+                team = 'Branquelas' if i % 2 == 0 else 'Maregões'
+                teams[team].append(player)
 
         return teams
 

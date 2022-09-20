@@ -31,7 +31,7 @@
                 {% for relation in edition.players_relations_classification() %}
                 {% if (relation.place == 1) %}
                 <tr style="background-color: rgba(0, 88, 252, 0.308)">
-                {% elif (relation.place == 12) %}
+                {% elif (relation.place == edition.get_number_of_players()) %}
                 <tr style="background-color: rgba(255, 0, 0, 0.288)">
                 {% elif (relation.place < 7) %}
                 <tr style="background-color: rgba(0, 153, 255, 0.2)">
