@@ -44,6 +44,7 @@ def edition():
         name = request.form.get('name')
         league = League.query.filter_by(name = request.form.get('league')).first()
         time = request.form.get('time')
+        number_of_players = int(request.form.get('number_of_players')) if request.form.get('number_of_players') else 0
         final_game = datetime.datetime.strptime(request.form.get('final_game'), '%Y-%m-%d')
         if not league or not name:
             redirect(url_for('errors.missing_information' , model='edition',field ='name or league'))
@@ -52,7 +53,7 @@ def edition():
         edition = Edition(name=name,league_id=league.id,time = time,final_game=final_game)
         edition.create()
         players = []
-        for i in range(12):
+        for i in range(number_of_players):
             field = 'player_' + str(i)
             player_name = request.form.get(field)
             player = Player.query.filter_by(name = player_name).first()
@@ -100,7 +101,7 @@ def game(edition_name=None):
             goals_team2 = goals_team2[0]
             winner = 1 if goals_team1 > goals_team2 else -1 if goals_team1 < goals_team2 else 0
             date = datetime.datetime.strptime(request.form.get('game_date'), '%Y-%m-%d')
-            matchweek = max([game.matchweek for game in edition.games]) + 1
+            matchweek = max([game.matchweek for game in edition.games]) + 1 if [game.matchweek for game in edition.games] else 1
             game = Game(goals_team1=goals_team1,goals_team2=goals_team2,winner=winner,edition_id=edition.id,matchweek = matchweek,date=date)
             game.create()
 
