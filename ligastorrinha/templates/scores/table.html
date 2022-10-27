@@ -15,8 +15,8 @@
                     <th width="5%"></th>
                     <th class="text"></th>
                     <th width="12%" class="not_optional" name="Pontos">Pontos</th>
-                    <th width="12%" class="optional">Presenças</th>
-                    <th width="12%" class="not_optional" name="Golos">Golos</th>
+                    <th width="6%" class="optional">Presenças</th>
+                    <th width="6%" class="not_optional" name="Golos">Golos</th>
                     <th width="12%" class="optional">% Presenças</th>
                     <th width="6%">V</th>
                     <th width="6%" class="optional">E</th>
@@ -33,7 +33,7 @@
                 <tr style="background-color: rgba(0, 88, 252, 0.308)">
                 {% elif (relation.place == edition.get_number_of_players()) %}
                 <tr style="background-color: rgba(255, 0, 0, 0.288)">
-                {% elif (relation.place < 7) %}
+                {% elif (relation.place <= edition.get_number_of_players()/2) %}
                 <tr style="background-color: rgba(0, 153, 255, 0.2)">
                 {% else %}
                 <tr style="background-color: rgba(228, 120, 120, 0.2)">
