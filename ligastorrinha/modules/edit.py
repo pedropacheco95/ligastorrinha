@@ -1,5 +1,6 @@
 import functools
 import random
+import datetime
 
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -26,3 +27,13 @@ def edition_replace_player(id):
         return render_template('scores/table.html', view='table',league = edition.league, edition = edition)
     players = Player.query.all()
     return render_template('edit/edition_replace_player.html',edition=edition,players=players)
+
+
+@bp.route('edition/close', methods=('GET', 'POST'))
+def close_editions():
+    edition_ended = Edition.query.filter(Edition.final_game < datetime.date.today()).all()
+    for edition in edition_ended:
+        edition.has_ended = True
+        edition.save()
+
+    return 'Done'

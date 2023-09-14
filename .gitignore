@@ -141,3 +141,8 @@ ligastorrinha/static/data/csv/*
 
 *.ipynb
 *.ipynb_checkpoints
+
+#Mac files 
+
+*.icloud
+*.DS_Store
